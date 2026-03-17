@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('aerolineas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('codigo_iata', 10)->unique();
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }
