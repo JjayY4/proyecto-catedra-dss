@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckAdminRole;
 
 Route::get('/', function () {
     return view('welcome');
@@ -9,11 +10,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
+Route::middleware(['auth', CheckAdminRole::class])->group(function () {
 Route::get('/admin/dashboard', function () {
     return '¡Bienvenido al panel de administración!';
 })->name('admin.dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
