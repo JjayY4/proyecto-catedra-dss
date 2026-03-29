@@ -22,7 +22,7 @@ class ReserveController extends Controller
                 
                 $flight = Flights::with('airplane')->where('id_flights', $request->id_flights)->firstOrFail();
 
-                $currentReservations = Reserve::where('id_flights', $request->id_flights)->count();
+                $currentReservations = Reserves::where('id_flights', $request->id_flights)->count();
 
                 if ($currentReservations >= $flight->airplane->total_capacity) {
                     return response()->json([
@@ -30,7 +30,7 @@ class ReserveController extends Controller
                         'message' => 'Ya no hay asientos disponibles en este vuelo.'
                     ], 400);
                 }
-                $reservation = Reserve::create([
+                $reservation = Reserves::create([
                     'id_flights' => $request->id_flights,
                     'id_passengers' => $request->id_passengers,
                     'id_seats' => $request->id_seats,
