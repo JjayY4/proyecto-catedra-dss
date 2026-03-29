@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FlightController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -25,3 +26,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
+
