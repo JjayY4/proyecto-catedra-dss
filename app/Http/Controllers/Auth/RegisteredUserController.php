@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class RegisteredUserController extends Controller
 {
@@ -37,7 +38,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'passport_number' => ['required', 'string', 'alpha_num', 'min:6', 'max:15', 'unique:passengers,passport_number'],
             'birthdate' => ['required', 'date', 'before:-18 years'],
-            'phone' => ['required', 'string', 'regex:/^[0-9]{4}-[0-9]{4}$/'],
+            'phone' => ['required', 'string', 'regex:/^[0-9]{4}-[0-9]{4}$/', 'unique:passengers,phone'],
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.max' => 'El nombre no puede tener más de 255 caracteres.',
@@ -54,12 +55,14 @@ class RegisteredUserController extends Controller
             'birthdate.before' => 'Debes tener al menos 18 años para registrarte.',
             'phone.required' => 'El número de teléfono es obligatorio.',
             'phone.regex' => 'El teléfono debe llevar el formato correcto con guión',
+            'phone.unique' => 'Este número de teléfono ya está registrado.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ]);
 
-        $user = User::create([
+        return DB::transaction(function () use ($request) {
+            $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -71,12 +74,15 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'user_id' => $user->id,
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+
+            
+        });
     }
 }

@@ -15,6 +15,7 @@ class Passengers extends Model
         'birthdate', 
         'name', 
         'email', 
-        'phone'
+        'phone',
+        'user_id'
     ];
 }
