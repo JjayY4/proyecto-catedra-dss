@@ -1,25 +1,27 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi Perfil</title>
+</head>
+<body>
+    <nav>
+        <a href="{{ route('dashboard') }}">Volver al Dashboard</a>
+    </nav>
+    <hr>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+    <h1>Mis Datos Personales</h1>
+    
+    <form method="POST" action="{{ route('profile.update') }}">
+        @csrf
+        @method('patch')
 
-            
+        <label>Nombre Completo:</label><br>
+        <input type="text" name="name" value="{{ Auth::user()->name }}" required><br><br>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+        <label>Correo Electrónico:</label><br>
+        <input type="email" name="email" value="{{ Auth::user()->email }}" required><br><br>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+</body>
+</html>
