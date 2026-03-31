@@ -1,10 +1,4 @@
 <x-guest-layout>
-    @if (session('status'))
-        <div style="color: green; margin-bottom: 1rem;">
-            {{ session('status') }}
-        </div>
-    @endif
-
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

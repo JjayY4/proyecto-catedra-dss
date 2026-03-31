@@ -15,10 +15,12 @@ class CheckAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
+        if (auth()->check()) {
+        if (auth()->user()->role === 'admin') {
             return $next($request);
-        }else {
-            return response()->json(['message' => 'Unauthorized'], 403);
         }
+        return redirect()->route('index');
+    }
+    return redirect()->route('login');
     }
 }
