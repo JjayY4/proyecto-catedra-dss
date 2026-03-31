@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ReserveController;
+use App\Http\Controllers\AirlineController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -14,6 +15,8 @@ Route::middleware(['auth', App\Http\Middleware\CheckAdminRole::class])->group(fu
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/airlines/create', [AirlineController::class, 'create'])->name('airlines.create');
+    Route::post('/airlines', [AirlineController::class, 'store'])->name('airlines.store');
 });
 
 Route::middleware('auth')->group(function () {

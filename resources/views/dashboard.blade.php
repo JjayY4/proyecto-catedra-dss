@@ -17,7 +17,7 @@
     
     <div>
         <ul>
-            <li>Registro y Gestión de Aerolíneas</li>
+            <li><a href="{{ route('airlines.create') }}">Registro y Gestión de Aerolíneas</a></li>
             <li>Registro y Gestión de Vuelos</li>
             <li>Administración de Aviones y tripulación</li>
         </ul>

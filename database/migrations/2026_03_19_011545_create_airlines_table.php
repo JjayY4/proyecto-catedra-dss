@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('iata_code', 10)->unique();
             $table->text('description')->nullable();
+            $table->string('logo_url')->nullable();
             $table->timestamps();
         });
     }
