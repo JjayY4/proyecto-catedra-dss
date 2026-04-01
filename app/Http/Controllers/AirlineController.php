@@ -50,4 +50,11 @@ class AirlineController extends Controller
     $airlines = Airlines::all();
     return view('airlines.index', compact('airlines'));
 }
+
+public function destroy($id)
+{
+    $airline = Airlines::findOrFail($id);
+    $airline->delete();
+    return redirect()->route('airlines.index')->with('success', 'Aerolínea eliminada correctamente.');
+}
 }

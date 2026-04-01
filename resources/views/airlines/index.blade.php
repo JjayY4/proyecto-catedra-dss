@@ -13,14 +13,22 @@
         <p>No hay aerolíneas registradas.</p>
     @else
         @foreach($airlines as $airline)
-            <div>
-                <img src="{{ $airline->logo_url }}" alt="Logo {{ $airline->name }}" width="80">
-                <h3>{{ $airline->name }}</h3>
-                <p><strong>Código IATA:</strong> {{ $airline->iata_code }}</p>
-                <p><strong>Descripción:</strong> {{ $airline->description ?? 'Sin descripción' }}</p>
-            </div>
-            <hr>
-        @endforeach
+    <div>
+        <img src="{{ $airline->logo_url }}" alt="Logo {{ $airline->name }}" width="80">
+        <h3>{{ $airline->name }}</h3>
+        <p><strong>Código IATA:</strong> {{ $airline->iata_code }}</p>
+        <p><strong>Descripción:</strong> {{ $airline->description ?? 'Sin descripción' }}</p>
+
+        <form method="POST" action="{{ route('airlines.destroy', $airline->id_airlines) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta aerolínea?')">
+                Eliminar
+            </button>
+        </form>
+    </div>
+    <hr>
+@endforeach
     @endif
 
     <a href="{{ route('dashboard') }}">Volver al Dashboard</a>

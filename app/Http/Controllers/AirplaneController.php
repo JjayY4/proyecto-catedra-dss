@@ -56,4 +56,11 @@ class AirplaneController extends Controller
 
         return redirect()->route('airplanes.index')->with('success', 'Avión registrado exitosamente.');
     }
+
+    public function destroy($id)
+{
+    $airplane = Airplanes::findOrFail($id);
+    $airplane->delete();
+    return redirect()->route('airplanes.index')->with('success', 'Avión eliminado correctamente.');
+}
 }

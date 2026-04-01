@@ -21,6 +21,11 @@ Route::middleware(['auth', CheckAdminRole::class])->group(function () {
     Route::get('/airlines', [AirlineController::class, 'index'])->name('airlines.index');
     Route::get('/airlines/create', [AirlineController::class, 'create'])->name('airlines.create');
     Route::post('/airlines', [AirlineController::class, 'store'])->name('airlines.store');
+    Route::get('/airplanes', [AirplaneController::class, 'index'])->name('airplanes.index');
+    Route::get('/airplanes/create', [AirplaneController::class, 'create'])->name('airplanes.create');
+    Route::post('/airplanes', [AirplaneController::class, 'store'])->name('airplanes.store');
+    Route::delete('/airlines/{id}', [AirlineController::class, 'destroy'])->name('airlines.destroy');
+    Route::delete('/airplanes/{id}', [AirplaneController::class, 'destroy'])->name('airplanes.destroy');
 });
 
 // Solo usuarios autenticados
@@ -33,9 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
     Route::post('/reservas/crear', [ReserveController::class, 'store'])->name('reserves.store');
-    Route::get('/airplanes', [AirplaneController::class, 'index'])->name('airplanes.index');
-    Route::get('/airplanes/create', [AirplaneController::class, 'create'])->name('airplanes.create');
-    Route::post('/airplanes', [AirplaneController::class, 'store'])->name('airplanes.store');
+    
 });
 
 require __DIR__.'/auth.php';
