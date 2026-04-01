@@ -6,7 +6,7 @@
 </head>
 <body>
     <nav>
-    <a href="{{ route('profile') }}">Mi Perfil</a>
+        <a href="{{ route('profile') }}">Mi Perfil</a>
         <form method="POST" action="{{ route('logout') }}" style="display:inline;">
             @csrf
             <button type="submit">Cerrar Sesión</button>
@@ -17,7 +17,6 @@
     <h2>Encuentra tu próximo vuelo</h2>
 
     <form action="{{ route('flights.search') }}" method="GET">
-        
         <label for="origen">Origen (Ciudad o Aeropuerto):</label><br>
         <input type="text" id="origen" name="origen" value="{{ request('origen') }}" required><br><br>
 
@@ -28,22 +27,25 @@
         <input type="date" id="fecha" name="fecha" value="{{ request('fecha') }}"><br><br>
 
         <button type="submit">Buscar Vuelos</button>
-        
     </form>
 
     <br><br>
 
     @if(isset($flights))
         <h3>Resultados de tu búsqueda:</h3>
-        
+
         @if(count($flights) > 0)
             <table border="1" cellpadding="10" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Vuelo</th>
+                        <th>Aerolínea</th>
                         <th>Origen</th>
                         <th>Destino</th>
-                        <th>Fecha y Hora</th>
+                        <th>Salida</th>
+                        <th>Llegada</th>
+                        <th>Duración</th>
+                        <th>Avión</th>
                         <th>Precio Base</th>
                         <th>Acción</th>
                     </tr>
@@ -52,22 +54,18 @@
                     @foreach($flights as $vuelo)
                         <tr>
                             <td>{{ $vuelo->flight_number }}</td>
+                            <td>{{ $vuelo->airline->name }}</td>
                             <td>{{ $vuelo->route->origin_city }} ({{ $vuelo->route->origin_airport }})</td>
                             <td>{{ $vuelo->route->destination_city }} ({{ $vuelo->route->destination_airport }})</td>
                             <td>{{ $vuelo->departure_date_time }}</td>
+                            <td>{{ $vuelo->arrival_date_time }}</td>
+                            <td>{{ $vuelo->route->estimated_duration }}</td>
+                            <td>{{ $vuelo->airplane->model }}</td>
                             <td>${{ $vuelo->base_rate }}</td>
                             <td>
-                                <form action="{{ route('reserves.store') }}" method="POST">
-                                    @csrf
-                                    
-                                    <input type="hidden" name="id_flights" value="{{ $vuelo->id_flights }}">
-                                    
-                                    <input type="hidden" name="seat_class" value="Economica"> 
-                                    
-                                    <button type="submit">
-                                        Confirmar Reserva
-                                    </button>
-                                </form>
+                                <a href="{{ route('reserves.create', $vuelo->id_flights) }}">
+                                    <button type="button">Seleccionar Asiento</button>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -77,6 +75,5 @@
             <p>No se encontraron vuelos para esta ruta o fecha.</p>
         @endif
     @endif
-
 </body>
 </html>

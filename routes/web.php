@@ -51,7 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
 
     Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
-    Route::post('/reservas/crear', [ReserveController::class, 'store'])->name('reserves.store');
+    Route::get('/reserves/create/{id_flights}', [ReserveController::class, 'create'])->name('reserves.create');
+    Route::post('/reserves', [ReserveController::class, 'store'])->name('reserves.store');
     
 });
 
