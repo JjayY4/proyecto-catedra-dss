@@ -4,6 +4,7 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ReserveController;
 use App\Http\Controllers\AirlineController;
 use App\Http\Controllers\AirplaneController;
+use App\Http\Controllers\CrewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -26,6 +27,10 @@ Route::middleware(['auth', CheckAdminRole::class])->group(function () {
     Route::post('/airplanes', [AirplaneController::class, 'store'])->name('airplanes.store');
     Route::delete('/airlines/{id}', [AirlineController::class, 'destroy'])->name('airlines.destroy');
     Route::delete('/airplanes/{id}', [AirplaneController::class, 'destroy'])->name('airplanes.destroy');
+    Route::get('/crews', [CrewController::class, 'index'])->name('crews.index');
+    Route::get('/crews/create', [CrewController::class, 'create'])->name('crews.create');
+    Route::post('/crews', [CrewController::class, 'store'])->name('crews.store');
+    Route::delete('/crews/{id}', [CrewController::class, 'destroy'])->name('crews.destroy');
 });
 
 // Solo usuarios autenticados

@@ -8,6 +8,8 @@
     <nav>
         <a href="{{ route('airplanes.create') }}">Registrar Avión</a>
         <a href="{{ route('airplanes.index') }}">Ver Aviones</a>
+        <a href="{{ route('crews.create') }}">Registrar Tripulación</a>
+        <a href="{{ route('crews.index') }}">Ver Tripulación</a>
         <form method="POST" action="{{ route('logout') }}" style="display:inline;">
             @csrf
             <button type="submit">Cerrar Sesión</button>
