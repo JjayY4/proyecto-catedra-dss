@@ -36,6 +36,10 @@ Route::middleware(['auth', CheckAdminRole::class])->group(function () {
     Route::get('/routes/create', [RouteController::class, 'create'])->name('routes.create');
     Route::post('/routes', [RouteController::class, 'store'])->name('routes.store');
     Route::delete('/routes/{id}', [RouteController::class, 'destroy'])->name('routes.destroy');
+    Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
+    Route::get('/flights/create', [FlightController::class, 'create'])->name('flights.create');
+    Route::post('/flights', [FlightController::class, 'store'])->name('flights.store');
+    Route::delete('/flights/{id}', [FlightController::class, 'destroy'])->name('flights.destroy');
 });
 
 // Solo usuarios autenticados

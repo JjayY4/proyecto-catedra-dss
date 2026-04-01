@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Flights extends Model
 {
     protected $table = 'flights';
-
+    protected $primaryKey = 'id_flights';
     protected $fillable = [
         'id_airplanes', 
         'id_airlines', 
