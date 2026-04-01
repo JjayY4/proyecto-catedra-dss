@@ -15,10 +15,10 @@ class AirlineController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'iata_code' => 'required|string|max:10|unique:airlines',
+            'name'        => 'required|string|max:255',
+            'iata_code'   => 'required|string|size:2|alpha_num|unique:airlines|uppercase',
             'description' => 'nullable|string',
-            'logo' => 'nullable|image',
+            'logo'        => 'nullable|image',
         ]);
         $logoUrl = null;
 
@@ -44,4 +44,10 @@ class AirlineController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Aerolinea registrada exitosamente.');
     }
+
+    public function index()
+{
+    $airlines = Airlines::all();
+    return view('airlines.index', compact('airlines'));
+}
 }

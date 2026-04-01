@@ -17,6 +17,7 @@ Route::middleware(['auth', App\Http\Middleware\CheckAdminRole::class])->group(fu
     })->name('dashboard');
     Route::get('/airlines/create', [AirlineController::class, 'create'])->name('airlines.create');
     Route::post('/airlines', [AirlineController::class, 'store'])->name('airlines.store');
+    Route::get('/airlines', [AirlineController::class, 'index'])->name('airlines.index');
 });
 
 Route::middleware('auth')->group(function () {
