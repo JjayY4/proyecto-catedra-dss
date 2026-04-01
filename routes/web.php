@@ -3,6 +3,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ReserveController;
 use App\Http\Controllers\AirlineController;
+use App\Http\Controllers\AirplaneController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
     Route::post('/reservas/crear', [ReserveController::class, 'store'])->name('reserves.store');
+    Route::get('/airplanes', [AirplaneController::class, 'index'])->name('airplanes.index');
+    Route::get('/airplanes/create', [AirplaneController::class, 'create'])->name('airplanes.create');
+    Route::post('/airplanes', [AirplaneController::class, 'store'])->name('airplanes.store');
 });
 
 require __DIR__.'/auth.php';

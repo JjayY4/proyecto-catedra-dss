@@ -19,7 +19,7 @@
         <ul>
             <li><a href="{{ route('airlines.create') }}">Registro y Gestión de Aerolíneas</a></li>
             <li>Registro y Gestión de Vuelos</li>
-            <li>Administración de Aviones y tripulación</li>
+            <li><a href="{{ route('airplanes.create') }}">Administración de Aviones y tripulación</a></li>
         </ul>
     </div>
 
