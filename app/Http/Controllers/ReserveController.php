@@ -25,41 +25,65 @@ class ReserveController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_flights'  => 'required|exists:flights,id_flights',
-            'id_seats'    => 'required|exists:seats,id_seats',
-        ]);
+{
+    $request->validate([
+        'id_flights' => 'required|exists:flights,id_flights',
+        'id_seats'   => 'required|exists:seats,id_seats',
+    ]);
 
-        try {
-            return DB::transaction(function () use ($request) {
-                $flight = Flights::with('airplane')->findOrFail($request->id_flights);
+    try {
+        return DB::transaction(function () use ($request) {
+            $flight    = Flights::with('airplane')->findOrFail($request->id_flights);
+            $passenger = auth()->user()->passenger;
 
-                $seatTaken = Reserves::where('id_flights', $request->id_flights)
-                    ->where('id_seats', $request->id_seats)
-                    ->whereIn('state_reserve', ['Pendiente', 'Confirmada'])
-                    ->exists();
+            $alreadyReserved = Reserves::where('id_flights', $request->id_flights)
+                ->where('id_passengers', $passenger->id_passengers)
+                ->whereIn('state_reserve', ['Pendiente', 'Confirmada'])
+                ->exists();
 
-                if ($seatTaken) {
-                    return back()->withErrors(['id_seats' => 'Este asiento ya fue reservado, elegí otro.']);
-                }
+            if ($alreadyReserved) {
+                return back()->withErrors(['error' => 'Ya tenés una reserva activa para este vuelo.']);
+            }
 
-                $passenger = auth()->user()->passenger;
+            $seatTaken = Reserves::where('id_flights', $request->id_flights)
+                ->where('id_seats', $request->id_seats)
+                ->whereIn('state_reserve', ['Pendiente', 'Confirmada'])
+                ->exists();
 
-                $reserve = Reserves::create([
-                    'id_flights'    => $request->id_flights,
-                    'id_passengers' => $passenger->id_passengers,
-                    'id_seats'      => $request->id_seats,
-                    'state_reserve' => 'Pendiente',
-                    'date_reserve'  => now(),
-                    'reserve_code'  => strtoupper(Str::random(8)),
-                    'total_price'   => $flight->base_rate,
-                ]);
+            if ($seatTaken) {
+                return back()->withErrors(['id_seats' => 'Este asiento ya fue reservado, elegí otro.']);
+            }
 
-                return redirect()->route('payments.create', $reserve->id_reserves);
-            });
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Hubo un problema: ' . $e->getMessage()]);
-        }
+            $seat = Seats::findOrFail($request->id_seats);
+
+            $multiplier = match($seat->class) {
+                'Primera'   => 2.0,
+                'Ejecutiva' => 1.5,
+                'Económica' => 1.0,
+                default     => 1.0,
+            };
+
+            $reserve = Reserves::create([
+                'id_flights'    => $request->id_flights,
+                'id_passengers' => $passenger->id_passengers,
+                'id_seats'      => $request->id_seats,
+                'state_reserve' => 'Pendiente',
+                'date_reserve'  => now(),
+                'reserve_code'  => strtoupper(Str::random(8)),
+                'total_price'   => $flight->base_rate * $multiplier,
+            ]);
+
+            return redirect()->route('payments.create', $reserve->id_reserves);
+        });
+    } catch (\Exception $e) {
+        return back()->withErrors(['error' => 'Hubo un problema: ' . $e->getMessage()]);
     }
+}
+
+
+    public function confirmation($id_reserves)
+{
+    $reserve = Reserves::with(['flight.route', 'flight.airline', 'seat'])->findOrFail($id_reserves);
+    return view('reserves.confirmation', compact('reserve'));
+}
 }

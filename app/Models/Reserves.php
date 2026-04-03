@@ -18,4 +18,14 @@ class Reserves extends Model
         'total_price', 
         'date_reserve'
     ];
+
+    public function seat()
+{
+    return $this->belongsTo(Seats::class, 'id_seats', 'id_seats');
+}
+
+public function flight()
+{
+    return $this->belongsTo(Flights::class, 'id_flights', 'id_flights');
+}
 }

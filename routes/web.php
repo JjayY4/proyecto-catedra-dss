@@ -6,6 +6,7 @@ use App\Http\Controllers\AirlineController;
 use App\Http\Controllers\AirplaneController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\CrewController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -53,6 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
     Route::get('/reserves/create/{id_flights}', [ReserveController::class, 'create'])->name('reserves.create');
     Route::post('/reserves', [ReserveController::class, 'store'])->name('reserves.store');
+    Route::get('/payments/create/{id_reserves}', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/reserves/confirmation/{id_reserves}', [ReserveController::class, 'confirmation'])->name('reserves.confirmation');
     
 });
 

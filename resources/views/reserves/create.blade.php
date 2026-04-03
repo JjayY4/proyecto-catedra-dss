@@ -11,13 +11,20 @@
     <p><strong>Aerolínea:</strong> {{ $flight->airline->name }}</p>
     <p><strong>Ruta:</strong> {{ $flight->route->origin_city }} → {{ $flight->route->destination_city }}</p>
     <p><strong>Salida:</strong> {{ $flight->departure_date_time }}</p>
-    <p><strong>Tarifa:</strong> ${{ $flight->base_rate }}</p>
+    <p><strong>Tarifa base:</strong> ${{ $flight->base_rate }}</p>
 
     <hr>
 
+    <div>
+        <p>💜 Primera — ${{ $flight->base_rate * 2 }}</p>
+        <p>💚 Ejecutiva — ${{ $flight->base_rate * 1.5 }}</p>
+        <p>⬜ Económica — ${{ $flight->base_rate }}</p>
+        <p>⬛ Ocupado</p>
+    </div>
+
     @if($errors->any())
         @foreach($errors->all() as $error)
-            <p>{{ $error }}</p>
+            <p style="color:red;">{{ $error }}</p>
         @endforeach
     @endif
 
@@ -27,16 +34,8 @@
         <input type="hidden" name="id_seats" id="selected_seat_input" value="">
 
         <h3>Mapa de Asientos</h3>
-
-        <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 13px;">
-            <span>🟣 Primera</span>
-            <span>🟢 Ejecutiva</span>
-            <span>⬜ Económica</span>
-            <span>⬛ Ocupado</span>
-            <span>🔵 Seleccionado</span>
-        </div>
-
         <p>Asiento seleccionado: <strong id="selected-label">Ninguno</strong></p>
+        <p>Precio a pagar: <strong id="price-label">—</strong></p>
 
         @php
             $primeraSeats   = $seats->where('class', 'Primera');
@@ -53,6 +52,8 @@
                         class="seat {{ $ocupado ? 'ocupado' : 'primera' }}"
                         data-id="{{ $seat->id_seats }}"
                         data-number="{{ $seat->seat_number }}"
+                        data-class="Primera"
+                        data-price="{{ $flight->base_rate * 2 }}"
                         {{ $ocupado ? 'disabled' : '' }}>
                         {{ $seat->seat_number }}
                     </button>
@@ -67,6 +68,8 @@
                         class="seat {{ $ocupado ? 'ocupado' : 'ejecutiva' }}"
                         data-id="{{ $seat->id_seats }}"
                         data-number="{{ $seat->seat_number }}"
+                        data-class="Ejecutiva"
+                        data-price="{{ $flight->base_rate * 1.5 }}"
                         {{ $ocupado ? 'disabled' : '' }}>
                         {{ $seat->seat_number }}
                     </button>
@@ -81,6 +84,8 @@
                         class="seat {{ $ocupado ? 'ocupado' : 'economica' }}"
                         data-id="{{ $seat->id_seats }}"
                         data-number="{{ $seat->seat_number }}"
+                        data-class="Económica"
+                        data-price="{{ $flight->base_rate }}"
                         {{ $ocupado ? 'disabled' : '' }}>
                         {{ $seat->seat_number }}
                     </button>
@@ -95,10 +100,10 @@
 
     <style>
         .seat { width: 44px; height: 44px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer; font-size: 11px; font-weight: 500; }
-        .primera  { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
+        .primera   { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
         .ejecutiva { background: #E1F5EE; color: #085041; border-color: #5DCAA5; }
         .economica { background: #f5f5f5; color: #333; }
-        .ocupado  { background: #ddd; color: #999; cursor: not-allowed; }
+        .ocupado   { background: #ddd; color: #999; cursor: not-allowed; }
         .seleccionado { background: #378ADD; color: #fff; border-color: #185FA5; }
     </style>
 
@@ -108,7 +113,8 @@
                 document.querySelectorAll('.seat.seleccionado').forEach(s => s.classList.remove('seleccionado'));
                 btn.classList.add('seleccionado');
                 document.getElementById('selected_seat_input').value = btn.dataset.id;
-                document.getElementById('selected-label').textContent = btn.dataset.number;
+                document.getElementById('selected-label').textContent = btn.dataset.number + ' (' + btn.dataset.class + ')';
+                document.getElementById('price-label').textContent = '$' + parseFloat(btn.dataset.price).toFixed(2);
                 document.getElementById('confirm-btn').disabled = false;
             });
         });
