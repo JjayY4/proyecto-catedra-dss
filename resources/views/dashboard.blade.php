@@ -20,6 +20,7 @@
             <li><a href="{{ route('airlines.create') }}">Registro y Gestión de Aerolíneas</a></li>
             <li><a href="{{ route('flights.create') }}">Creación de vuelos, rutas, horarios y tarifas</a></li>
             <li><a href="{{ route('airplanes.create') }}">Administración de Aviones y tripulación</a></li>
+            <li><a href="{{ route('claims.index') }}">Procesamiento de reclamos</a></li>
         </ul>
     </div>
 

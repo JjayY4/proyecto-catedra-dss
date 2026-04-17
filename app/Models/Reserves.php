@@ -28,4 +28,9 @@ public function flight()
 {
     return $this->belongsTo(Flights::class, 'id_flights', 'id_flights');
 }
+
+public function claims()
+{
+    return $this->hasMany(Claims::class, 'id_reserves', 'id_reserves');
+}
 }

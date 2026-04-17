@@ -7,6 +7,8 @@
 <body>
     <nav>
         <a href="{{ route('profile') }}">Mi Perfil</a>
+        <a href="{{ route('reserves.my') }}">Mis Reservas</a>
+        <a href="{{ route('claims.my') }}">Mis Reclamos</a>
         <form method="POST" action="{{ route('logout') }}" style="display:inline;">
             @csrf
             <button type="submit">Cerrar Sesión</button>

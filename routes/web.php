@@ -7,6 +7,7 @@ use App\Http\Controllers\AirplaneController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ClaimController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -41,6 +42,8 @@ Route::middleware(['auth', CheckAdminRole::class])->group(function () {
     Route::get('/flights/create', [FlightController::class, 'create'])->name('flights.create');
     Route::post('/flights', [FlightController::class, 'store'])->name('flights.store');
     Route::delete('/flights/{id}', [FlightController::class, 'destroy'])->name('flights.destroy');
+    Route::get('/claims', [ClaimController::class, 'index'])->name('claims.index');
+    Route::patch('/claims/{id}/state', [ClaimController::class, 'updateState'])->name('claims.updateState');
 });
 
 // Solo usuarios autenticados
@@ -57,7 +60,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/payments/create/{id_reserves}', [PaymentController::class, 'create'])->name('payments.create');
     Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('/reserves/confirmation/{id_reserves}', [ReserveController::class, 'confirmation'])->name('reserves.confirmation');
-    
+    Route::get('/my-reserves', [ClaimController::class, 'myReserves'])->name('reserves.my');
+    Route::get('/claims/create/{id_reserves}', [ClaimController::class, 'create'])->name('claims.create');
+    Route::post('/claims', [ClaimController::class, 'store'])->name('claims.store');
+    Route::get('/my-claims', [ClaimController::class, 'myClaims'])->name('claims.my');
 });
 
 require __DIR__.'/auth.php';
