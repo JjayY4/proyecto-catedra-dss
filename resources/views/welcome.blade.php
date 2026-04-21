@@ -29,7 +29,7 @@ if (auth()->check()) {
                     </a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-                            Registrarse
+                            Crear Cuenta
                         </a>
                     @endif
                 @endguest
@@ -47,7 +47,7 @@ if (auth()->check()) {
             <span class="text-blue-500">es tu próximo destino.</span>
         </h1>
         <p class="text-gray-400 text-lg max-w-xl mb-10">
-            Buscá vuelos, explorá destinos y planificá tu próximo viaje con la mejor experiencia de reserva aérea.
+            Busca vuelos, explora destinos y planifica tu próximo viaje con la mejor experiencia de reserva aérea en línea.
         </p>
         @guest
             <div class="flex gap-4">
@@ -71,8 +71,8 @@ if (auth()->check()) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
             </div>
-            <h3 class="text-white font-semibold text-lg mb-2">Buscá tu vuelo</h3>
-            <p class="text-gray-400 text-sm">Encontrá vuelos disponibles por origen, destino y fecha de manera rápida y sencilla.</p>
+            <h3 class="text-white font-semibold text-lg mb-2">Busca tu vuelo</h3>
+            <p class="text-gray-400 text-sm">Encuentra vuelos disponibles por origen, destino y fecha de manera rápida y sencilla.</p>
         </div>
 
         <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
@@ -81,8 +81,8 @@ if (auth()->check()) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
             </div>
-            <h3 class="text-white font-semibold text-lg mb-2">Reservá tu asiento</h3>
-            <p class="text-gray-400 text-sm">Elegí tu asiento preferido entre primera clase, ejecutiva o económica con precios dinámicos.</p>
+            <h3 class="text-white font-semibold text-lg mb-2">Reserva tu asiento</h3>
+            <p class="text-gray-400 text-sm">Elige tu asiento preferido entre primera clase, ejecutiva o económica con precios dinámicos.</p>
         </div>
 
         <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
@@ -91,8 +91,8 @@ if (auth()->check()) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                 </svg>
             </div>
-            <h3 class="text-white font-semibold text-lg mb-2">Pagá de forma segura</h3>
-            <p class="text-gray-400 text-sm">Confirmá tu reserva y realizá tu pago con tarjeta de crédito o débito de forma simulada.</p>
+            <h3 class="text-white font-semibold text-lg mb-2">Paga de forma segura</h3>
+            <p class="text-gray-400 text-sm">Confirma tu reserva y realiza tu pago con tarjeta de crédito o débito de forma simulada.</p>
         </div>
     </section>
 
