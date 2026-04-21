@@ -8,7 +8,7 @@ if (auth()->check()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Proyecto de Cátedra DSS</title>
+    <title>AeroProject</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
@@ -40,7 +40,7 @@ if (auth()->check()) {
     {{-- Hero --}}
     <section class="flex flex-col items-center justify-center text-center px-6 py-24 pt-36">
         <div class="mb-6">
-            <span class="bg-blue-600 text-blue-100 text-sm font-medium px-4 py-1.5 rounded-full">Sistema de Gestión Aerolíneas</span>
+            <span class="bg-blue-600 text-blue-100 text-sm font-medium px-4 py-1.5 rounded-full">Sistema de Gestión de Aerolíneas</span>
         </div>
         <h1 class="text-5xl font-bold text-white mb-6 leading-tight">
             El cielo no es el límite,<br>
