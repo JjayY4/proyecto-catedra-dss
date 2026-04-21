@@ -33,6 +33,30 @@ class RouteController extends Controller
         return redirect()->route('routes.index')->with('success', 'Ruta registrada exitosamente.');
     }
 
+    public function edit($id)
+{
+    $route = Routes::findOrFail($id);
+    return view('routes.edit', compact('route'));
+}
+
+public function update(Request $request, $id)
+{
+    $route = Routes::findOrFail($id);
+
+    $request->validate([
+        'origin_airport'      => 'required|string|size:3|alpha|uppercase',
+        'origin_city'         => 'required|string|max:255',
+        'destination_airport' => 'required|string|size:3|alpha|uppercase',
+        'destination_city'    => 'required|string|max:255',
+        'distance_km'         => 'required|numeric|min:1',
+        'estimated_duration'  => 'required',
+    ]);
+
+    $route->update($request->all());
+
+    return redirect()->route('routes.index')->with('success', 'Ruta actualizada correctamente.');
+}
+
     public function destroy($id)
     {
         $route = Routes::findOrFail($id);

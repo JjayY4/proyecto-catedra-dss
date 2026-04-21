@@ -26,6 +26,10 @@
                     <button type="submit" onclick="return confirm('¿Eliminar esta ruta?')">Eliminar</button>
                 </form>
             </div>
+
+            <a href="{{ route('routes.edit', $route->id_routes) }}">
+                <button type="button">Editar</button>
+            </a>
             <hr>
         @endforeach
     @endif
