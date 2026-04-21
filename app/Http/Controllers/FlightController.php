@@ -76,4 +76,33 @@ class FlightController extends Controller
         $flights = $query->get();
         return view('index', compact('flights'));
     }
+
+    public function edit($id)
+{
+    $flight = Flights::findOrFail($id);
+    $routes = Routes::all();
+    $airplanes = Airplanes::all();
+    $airlines = Airlines::all();
+    return view('flights.edit', compact('flight', 'routes', 'airplanes', 'airlines'));
+}
+
+public function update(Request $request, $id)
+{
+    $flight = Flights::findOrFail($id);
+
+    $request->validate([
+        'id_routes'           => 'required|exists:routes,id_routes',
+        'id_airplanes'        => 'required|exists:airplanes,id_airplanes',
+        'id_airlines'         => 'required|exists:airlines,id_airlines',
+        'flight_number'       => 'required|string|unique:flights,flight_number,' . $id . ',id_flights',
+        'departure_date_time' => 'required|date',
+        'arrival_date_time'   => 'required|date|after:departure_date_time',
+        'base_rate'           => 'required|numeric|min:1',
+        'state'               => 'required|string',
+    ]);
+
+    $flight->update($request->all());
+
+    return redirect()->route('flights.index')->with('success', 'Vuelo actualizado correctamente.');
+}
 }

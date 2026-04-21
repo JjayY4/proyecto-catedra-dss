@@ -29,6 +29,10 @@
                     <button type="submit" onclick="return confirm('¿Eliminar este vuelo?')">Eliminar</button>
                 </form>
             </div>
+
+            <a href="{{ route('flights.edit', $flight->id_flights) }}">
+                <button type="button">Editar</button>
+            </a>
             <hr>
         @endforeach
     @endif
