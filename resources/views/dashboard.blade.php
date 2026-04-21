@@ -26,9 +26,14 @@
 
     <div>
         <h2>Estadísticas Generales</h2>
-        <p>Número de Reservas: <strong>0</strong></p>
-        <p>Número de Cancelaciones: <strong>0</strong></p>
-        <p>Usuarios Registrados: <strong>0</strong></p>
+        <p>Pasajeros Registrados: <strong>{{ $stats['passengers'] }}</strong></p>
+        <p>Número de Vuelos Activos: <strong>{{ $stats['active_flights'] }}</strong></p>
+        <p>Número de Rutas Disponibles: <strong>{{ $stats['routes'] }}</strong></p>
+        <p>Número de Aerolíneas Registradas: <strong>{{ $stats['airlines'] }}</strong></p>
+        <p>Número de Aviones en Flota: <strong>{{ $stats['airplanes'] }}</strong></p>
+        <p>Número de Tripulantes Registrados: <strong>{{ $stats['crews'] }}</strong></p>
+        <p>Número de Reservas de vuelos: <strong>{{ $stats['reserves'] }}</strong></p>
+        <p>Número de Cancelaciones: <strong>{{ $stats['cancellations'] }}</strong></p>
     </div>
 
 </body>

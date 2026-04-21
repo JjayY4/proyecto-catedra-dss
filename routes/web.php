@@ -8,6 +8,7 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ClaimController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdminRole;
 
@@ -18,9 +19,7 @@ Route::get('/', function () {
 
 // Admin authenticated routes
 Route::middleware(['auth', CheckAdminRole::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //airlines: index, create, store, edit, update, destroy
     Route::get('/airlines', [AirlineController::class, 'index'])->name('airlines.index');

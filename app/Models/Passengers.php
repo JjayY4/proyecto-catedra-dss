@@ -8,7 +8,7 @@ class Passengers extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_passenger';
+    protected $primaryKey = 'id_passengers';
 
     protected $fillable = [
         'passport_number', 
