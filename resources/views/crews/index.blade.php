@@ -27,6 +27,10 @@
                     <button type="submit" onclick="return confirm('¿Eliminar este miembro?')">Eliminar</button>
                 </form>
             </div>
+
+            <a href="{{ route('crews.edit', $crew->id_crew_member) }}">
+                <button type="button">Editar</button>
+            </a>
             <hr>
         @endforeach
     @endif
