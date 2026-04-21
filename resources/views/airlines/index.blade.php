@@ -26,6 +26,10 @@
                 Eliminar
             </button>
         </form>
+
+        <a href="{{ route('airlines.edit', $airline->id_airlines) }}">
+            <button type="button">Editar</button>
+        </a>
     </div>
     <hr>
 @endforeach
