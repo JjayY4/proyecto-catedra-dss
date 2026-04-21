@@ -86,4 +86,26 @@ class ReserveController extends Controller
     $reserve = Reserves::with(['flight.route', 'flight.airline', 'seat'])->findOrFail($id_reserves);
     return view('reserves.confirmation', compact('reserve'));
 }
+
+public function cancel($id_reserves)
+{
+    $reserve = Reserves::with('flight')->findOrFail($id_reserves);
+    $passenger = auth()->user()->passenger;
+
+    if ($reserve->id_passengers !== $passenger->id_passengers) {
+        return redirect()->route('reserves.my')->withErrors(['error' => 'No tenés permiso para cancelar esta reserva.']);
+    }
+
+    if ($reserve->state_reserve === 'Cancelada') {
+        return redirect()->route('reserves.my')->withErrors(['error' => 'Esta reserva ya está cancelada.']);
+    }
+
+    if (now()->greaterThanOrEqualTo($reserve->flight->departure_date_time)) {
+        return redirect()->route('reserves.my')->withErrors(['error' => 'No podés cancelar una reserva de un vuelo que ya salió.']);
+    }
+
+    $reserve->update(['state_reserve' => 'Cancelada']);
+
+    return redirect()->route('reserves.my')->with('success', 'Reserva cancelada correctamente.');
+}
 }

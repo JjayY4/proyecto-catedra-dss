@@ -29,12 +29,28 @@
                 <p><strong>Total pagado:</strong> ${{ $reserve->total_price }}</p>
                 <p><strong>Estado:</strong> {{ $reserve->state_reserve }}</p>
 
-                @if($reserve->claims->isEmpty())
-                    <a href="{{ route('claims.create', $reserve->id_reserves) }}">
-                        <button type="button">Hacer Reclamo</button>
-                    </a>
+                @if($reserve->state_reserve !== 'Cancelada')
+                    @if($reserve->claims->isEmpty())
+                        <a href="{{ route('claims.create', $reserve->id_reserves) }}">
+                            <button type="button">Hacer Reclamo</button>
+                        </a>
+                    @else
+                        <p><em>Ya tenés un reclamo para esta reserva.</em></p>
+                    @endif
+
+                    @if(now()->lessThan($reserve->flight->departure_date_time))
+                        <form method="POST" action="{{ route('reserves.cancel', $reserve->id_reserves) }}">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" onclick="return confirm('¿Estás seguro de cancelar esta reserva?')">
+                                Cancelar Reserva
+                            </button>
+                        </form>
+                    @else
+                        <p><em>El vuelo ya salió, no se puede cancelar.</em></p>
+                    @endif
                 @else
-                    <p><em>Ya tenés un reclamo para esta reserva.</em></p>
+                    <p><em>Reserva cancelada.</em></p>
                 @endif
             </div>
             <hr>

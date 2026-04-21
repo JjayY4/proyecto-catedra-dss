@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/vuelos/buscar', [FlightController::class, 'search'])->name('flights.search');
     Route::get('/reserves/create/{id_flights}', [ReserveController::class, 'create'])->name('reserves.create');
     Route::post('/reserves', [ReserveController::class, 'store'])->name('reserves.store');
+    Route::patch('/reserves/{id_reserves}/cancel', [ReserveController::class, 'cancel'])->name('reserves.cancel');
     Route::get('/payments/create/{id_reserves}', [PaymentController::class, 'create'])->name('payments.create');
     Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('/reserves/confirmation/{id_reserves}', [ReserveController::class, 'confirmation'])->name('reserves.confirmation');
