@@ -14,7 +14,7 @@
             <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
             </svg>
-            <span class="text-xl font-bold text-white">AeroProject</span>
+            <span class="text-xl font-bold text-white">SkyFlow</span>
         </div>
         <div class="flex items-center gap-4">
             <a href="{{ route('index') }}" class="text-gray-400 hover:text-white text-sm transition">Buscar Vuelos</a>
@@ -120,10 +120,17 @@
             </div>
 
             <div class="mt-8">
-                <a href="{{ route('index') }}" class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition">
-                    Volver al inicio
+                <a href="{{ route('index') }}"
+                    class="bg-gray-700 hover:bg-gray-600 text-white p-2.5 rounded-lg transition flex items-center justify-center w-fit">
+
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 19l-7-7 7-7"/>
+                    </svg>
                 </a>
             </div>
+
+            
         @endif
     </div>
 

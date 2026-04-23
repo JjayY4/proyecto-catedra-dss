@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Editar Aerolínea — AeroDSS</title>
+    <title>Editar Aerolínea</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
@@ -14,8 +14,8 @@
             <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
             </svg>
-            <span class="text-xl font-bold text-white">AeroDSS</span>
-            <span class="ml-2 bg-blue-600 text-blue-100 text-xs font-medium px-2.5 py-0.5 rounded-full">Admin</span>
+            <span class="text-xl font-bold text-white">SkyFlow</span>
+            <span class="ml-2 bg-blue-600 text-blue-100 text-xs font-medium px-2.5 py-0.5 rounded-full">Administrador</span>
         </div>
         <div class="flex items-center gap-4">
             <a href="{{ route('airlines.index') }}" class="text-gray-400 hover:text-white text-sm transition">Ver Aerolíneas</a>
