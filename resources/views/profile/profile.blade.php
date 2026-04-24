@@ -24,7 +24,7 @@
                 <div class="flex items-center gap-2">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-500/20 bg-red-600/10 text-red-400 hover:bg-red-600 hover:text-white transition" title="Cerrar sesión">
+                        <button type="submit" class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-500/20 bg-red-600/10 text-red-400 hover:bg-red-600 hover:text-white transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H7a2 2 0 01-2-2V6a2 2 0 012-2h6"/>
                             </svg>
@@ -87,7 +87,7 @@
 
         <div class="mt-6 flex">
             @if(Auth::user()->role === 'admin')
-                <a href="{{ route('dashboard') }}" class="bg-gray-700 hover:bg-gray-600 text-white p-2.5 rounded-lg transition flex items-center justify-center" title="Volver al panel">
+                <a href="{{ route('dashboard') }}" class="bg-gray-700 hover:bg-gray-600 text-white p-2.5 rounded-lg transition flex items-center justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
