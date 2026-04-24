@@ -12,24 +12,32 @@ if (auth()->check()) {
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
-<nav class="fixed top-0 left-0 w-full z-50 bg-gray-800 border-b border-gray-700 px-6 py-4 flex items-center justify-between shadow-md">
-    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
-                <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-600/10">
-                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                    </svg>
-                </div>
+<nav class="fixed top-0 left-0 w-full z-50 bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4 flex items-center justify-between shadow-md">
+    <a class="flex items-center gap-3 group">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-600/10">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+        </div>
 
-                <div>
-                    <span class="text-xl font-bold text-white group-hover:text-blue-400 transition">SkyFlow</span>
-                </div>
-            </a>
-    <div class="flex gap-3">
+        <div>
+            <span class="text-xl font-bold text-white">SkyFlow</span>
+        </div>
+    </a>
+
+    <div class="flex items-center gap-2 sm:gap-3">
         @if(Route::has('login'))
             @guest
-                <a href="{{ route('login') }}" class="text-gray-300 hover:text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">Iniciar Sesión</a>
+                <a href="{{ route('login') }}"
+                   class="text-gray-300 hover:text-white px-2.5 sm:px-4 py-2 rounded-lg hover:bg-gray-700 transition text-sm sm:text-base whitespace-nowrap">
+                    Iniciar Sesión
+                </a>
+
                 @if(Route::has('register'))
-                    <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">Crear Cuenta</a>
+                    <a href="{{ route('register') }}"
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition text-sm sm:text-base whitespace-nowrap">
+                        Crear Cuenta
+                    </a>
                 @endif
             @endguest
         @endif
