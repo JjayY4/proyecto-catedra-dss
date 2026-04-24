@@ -28,6 +28,14 @@
 
                 <div class="flex items-center gap-2">
 
+                    <a href="{{ route('routes.index') }}"
+                        class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-700 bg-gray-800 text-gray-300 hover:text-white hover:border-blue-500/40 hover:bg-gray-700 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.5 19l19-7-19-7v5l13 2-13 2v5z"/>
+                        </svg>
+                    </a>
+
                     <a href="{{ route('profile') }}"
                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-700 bg-gray-800 text-gray-300 hover:text-white hover:border-blue-500/40 hover:bg-gray-700 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +125,6 @@
                             </span>
                         </div>
 
-                        {{-- Ruta --}}
                         <div class="flex items-center gap-4 mb-4">
                             <div class="text-center">
                                 <p class="text-xl font-bold text-white">{{ \Carbon\Carbon::parse($flight->departure_date_time)->format('H:i') }}</p>
@@ -162,8 +169,7 @@
                         {{-- Acciones --}}
                 <div class="flex items-center gap-2 pt-2">
                     <a href="{{ route('flights.edit', $flight->id_flights) }}"
-                        class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2"
-                        title="Editar vuelo">
+                        class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -177,8 +183,7 @@
 
                         <button type="button"
                             onclick="openDeleteModal('{{ $flight->id_flights }}', @js($flight->name))"
-                            class="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2"
-                            title="Eliminar vuelo">
+                            class="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m3-3h4a1 1 0 011 1v2H9V5a1 1 0 011-1z"/>
