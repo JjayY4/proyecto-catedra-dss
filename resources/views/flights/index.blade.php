@@ -195,6 +195,87 @@
 
     </div>
 
+        {{-- Modal eliminar vuelo --}}
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeDeleteModal()"></div>
+
+        <div class="relative w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl p-6">
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-900/40 border border-red-700">
+                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </div>
+
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-white">Eliminar vuelo</h2>
+                    <p class="text-sm text-gray-400 mt-2">
+                        Estás a punto de eliminar el vuelo
+                        <span id="modalFlightName" class="text-white font-semibold"></span>.
+                    </p>
+                    <p class="text-sm text-gray-400 mt-2">
+                        Esta acción no se puede deshacer.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-3">
+                <button
+                    type="button"
+                    onclick="closeDeleteModal()"
+                    class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+                    Volver
+                </button>
+
+                <button
+                    type="button"
+                    id="confirmDeleteBtn"
+                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+                    Sí, eliminar
+                </button>
+
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDeleteFormId = null;
+
+        function openDeleteModal(flightId, flightName) {
+            currentDeleteFormId = `delete-form-${flightId}`;
+
+            document.getElementById('modalFlightName').textContent = flightName;
+
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+
+            document.body.classList.remove('overflow-hidden');
+            currentDeleteFormId = null;
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+            if (currentDeleteFormId) {
+                document.getElementById(currentDeleteFormId).submit();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 </body>
 </html>
