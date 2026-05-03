@@ -92,10 +92,16 @@
 
                         <div class="flex flex-col md:flex-row gap-5">
 
-                            <div class="w-full md:w-44 h-32 rounded-xl overflow-hidden bg-gray-700 border border-gray-700 flex-shrink-0">
-                                <img src="{{ $airplane->image_url }}"
-                                    alt="Imagen {{ $airplane->model }}"
-                                    class="w-full h-full object-cover">
+                            <div class="w-full md:w-44 h-32 rounded-xl overflow-hidden bg-gray-700 border border-gray-700 flex-shrink-0 flex items-center justify-center">
+                                @if($airplane->image_url)
+                                    <img src="{{ $airplane->image_url }}"
+                                        alt="Imagen {{ $airplane->model }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <span class="text-white font-bold text-4xl">
+                                        {{ strtoupper(substr($airplane->model, 0, 1)) }}
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="flex-1">
