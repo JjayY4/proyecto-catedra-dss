@@ -24,6 +24,13 @@
                 </a>
 
                 <div class="flex items-center gap-2">
+                    <a href="{{ route('crews.index') }}"
+                        class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-700 bg-gray-800 text-gray-300 hover:text-white hover:border-blue-500/40 hover:bg-gray-700 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-1a4 4 0 00-3-3.87M9 20H4v-1a4 4 0 013-3.87m10-4a4 4 0 11-8 0 4 4 0 018 0zM5 11a4 4 0 118 0 4 4 0 01-8 0z"/>
+                        </svg>
+                    </a>
                     <a href="{{ route('profile') }}"
                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-700 bg-gray-800 text-gray-300 hover:text-white hover:border-blue-500/40 hover:bg-gray-700 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
