@@ -13,4 +13,9 @@ class Crew extends Model
     {
         return $this->belongsTo(Airlines::class, 'id_airlines', 'id_airlines');
     }
+
+    public function flights()
+    {
+        return $this->belongsToMany(Flights::class, 'flight_crew', 'id_crew_member', 'id_flights');
+    }
 }

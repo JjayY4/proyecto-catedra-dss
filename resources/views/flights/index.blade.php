@@ -166,6 +166,19 @@
                             </div>
                         </div>
 
+                        @if($flight->crew->isNotEmpty())
+                            <div class="mt-3 pt-3 border-t border-gray-700">
+                                <p class="text-gray-400 text-xs mb-2">Tripulación asignada</p>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($flight->crew as $member)
+                                        <span class="bg-gray-700 text-gray-300 text-xs px-2.5 py-1 rounded-full">
+                                            {{ $member->name }} — {{ $member->post }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
                         {{-- Acciones --}}
                 <div class="flex items-center gap-2 pt-2">
                     <a href="{{ route('flights.edit', $flight->id_flights) }}"

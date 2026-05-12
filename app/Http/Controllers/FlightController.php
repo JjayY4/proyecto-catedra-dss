@@ -6,12 +6,13 @@ use App\Models\Flights;
 use App\Models\Routes;
 use App\Models\Airplanes;
 use App\Models\Airlines;
+use App\Models\Crew;
 
 class FlightController extends Controller
 {
     public function index()
     {
-        $flights = Flights::with(['route', 'airplane', 'airline'])->get();
+        $flights = Flights::with(['route', 'airplane', 'airline', 'crew'])->get();
         return view('flights.index', compact('flights'));
     }
 
@@ -20,7 +21,8 @@ class FlightController extends Controller
         $routes = Routes::all();
         $airplanes = Airplanes::all();
         $airlines = Airlines::all();
-        return view('flights.create', compact('routes', 'airplanes', 'airlines'));
+        $crews = Crew::where('available', true)->get();
+        return view('flights.create', compact('routes', 'airplanes', 'airlines', 'crews'));
     }
 
     public function store(Request $request)
@@ -33,11 +35,18 @@ class FlightController extends Controller
             'departure_date_time' => 'required|date|after:now',
             'arrival_date_time'   => 'required|date|after:departure_date_time',
             'base_rate'           => 'required|numeric|min:1',
+            'crew_members'        => 'nullable|array',
+            'crew_members.*'      => 'exists:crews,id_crew_member'
         ]);
 
-        Flights::create($request->all());
+        $flight = Flights::create($request->except('crew_members'));
+
+        if ($request->crew_members) {
+            $flight->crew()->sync($request->crew_members);
+        }
 
         return redirect()->route('flights.index')->with('success', 'Vuelo registrado exitosamente.');
+        
     }
 
     public function destroy($id)
@@ -83,7 +92,9 @@ class FlightController extends Controller
     $routes = Routes::all();
     $airplanes = Airplanes::all();
     $airlines = Airlines::all();
-    return view('flights.edit', compact('flight', 'routes', 'airplanes', 'airlines'));
+    $crews     = Crew::where('available', true)->get();
+    $assignedCrew = $flight->crew->pluck('id_crew_member')->toArray();
+    return view('flights.edit', compact('flight', 'routes', 'airplanes', 'airlines', 'crews', 'assignedCrew'));
 }
 
 public function update(Request $request, $id)
@@ -99,9 +110,12 @@ public function update(Request $request, $id)
         'arrival_date_time'   => 'required|date|after:departure_date_time',
         'base_rate'           => 'required|numeric|min:1',
         'state'               => 'required|string',
+        'crew_members'        => 'nullable|array',
+        'crew_members.*'      => 'exists:crews,id_crew_member',
     ]);
 
-    $flight->update($request->all());
+    $flight->update($request->except('crew_members'));
+    $flight->crew()->sync($request->crew_members ?? []);
 
     return redirect()->route('flights.index')->with('success', 'Vuelo actualizado correctamente.');
 }

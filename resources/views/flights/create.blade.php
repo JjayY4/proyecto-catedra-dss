@@ -169,6 +169,29 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Tripulación Asignada</label>
+                    <p class="text-gray-500 text-xs mb-3">Seleccioná los miembros de tripulación disponibles para este vuelo</p>
+                    <div class="space-y-2 max-h-48 overflow-y-auto bg-gray-700 border border-gray-600 rounded-lg p-3">
+                        @forelse($crews as $crew)
+                            <label class="flex items-center gap-3 cursor-pointer hover:bg-gray-600 px-2 py-1.5 rounded-lg transition">
+                                <input type="checkbox" name="crew_members[]" value="{{ $crew->id_crew_member }}"
+                                    {{ in_array($crew->id_crew_member, old('crew_members', [])) ? 'checked' : '' }}
+                                    class="w-4 h-4 rounded border-gray-500 bg-gray-600 text-blue-500 focus:ring-blue-500">
+                                <div>
+                                    <p class="text-white text-sm font-medium">{{ $crew->name }}</p>
+                                    <p class="text-gray-400 text-xs">{{ $crew->post }} — {{ $crew->airline->name }}</p>
+                                </div>
+                            </label>
+                        @empty
+                            <p class="text-gray-400 text-sm text-center py-2">No hay tripulantes disponibles</p>
+                        @endforelse
+                    </div>
+                    @error('crew_members')
+                        <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="flex gap-3 pt-2">
                     <button type="submit"
                         class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm">
