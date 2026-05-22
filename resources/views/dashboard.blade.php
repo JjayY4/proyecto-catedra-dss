@@ -61,41 +61,194 @@
         </div>
 
         {{-- Stats --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Pasajeros</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['passengers'] }}</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
+
+    {{-- Pasajeros --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-blue-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div class="hover:border-blue-500">
+                <p class="text-gray-400 text-sm">Pasajeros</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['passengers'] }}
+                </h2>
             </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Vuelos Activos</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['active_flights'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Rutas</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['routes'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Aerolíneas</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['airlines'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Aviones en Flota</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['airplanes'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Tripulantes</p>
-                <p class="text-3xl font-bold text-white">{{ $stats['crews'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Reservas</p>
-                <p class="text-3xl font-bold text-green-400">{{ $stats['reserves'] }}</p>
-            </div>
-            <div class="bg-gray-800 border border-gray-700 rounded-xl p-5">
-                <p class="text-gray-400 text-xs mb-1">Cancelaciones</p>
-                <p class="text-3xl font-bold text-red-400">{{ $stats['cancellations'] }}</p>
+
+            <div class="w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5V4H2v16h5m10 0v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7"/>
+                </svg>
             </div>
         </div>
 
+        <p class="text-gray-500 text-sm">
+            Usuarios registrados en el sistema
+        </p>
+    </div>
+
+    {{-- Vuelos --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-cyan-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Vuelos Activos</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['active_flights'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-cyan-600/10 border border-cyan-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.5 19l19-7-19-7v5l13 2-13 2v5z"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Vuelos operando actualmente
+        </p>
+    </div>
+
+    {{-- Rutas --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-purple-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Rutas</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['routes'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 01.553-.894L9 2m0 18l6-3m-6 3V2m6 15l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m-6-2l6 2"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Conexiones aéreas registradas
+        </p>
+    </div>
+
+    {{-- Aerolíneas --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-indigo-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Aerolíneas</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['airlines'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 19l9 2-9-18-9 18 9-2z"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Empresas aéreas disponibles
+        </p>
+    </div>
+
+    {{-- Aviones --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-emerald-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Aviones</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['airplanes'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-600/10 border border-emerald-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.5 19l19-7-19-7v5l13 2-13 2v5z"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Flota aérea registrada
+        </p>
+    </div>
+
+    {{-- Tripulación --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-pink-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Tripulación</p>
+                <h2 class="text-4xl font-bold text-white mt-1">
+                    {{ $stats['crews'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-pink-600/10 border border-pink-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5V4H2v16h5"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Personal operativo disponible
+        </p>
+    </div>
+
+    {{-- Reservas --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-green-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Reservas</p>
+                <h2 class="text-4xl font-bold text-green-400 mt-1">
+                    {{ $stats['reserves'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-green-600/10 border border-green-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Reservaciones confirmadas
+        </p>
+    </div>
+
+    {{-- Cancelaciones --}}
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 transition hover:border-red-500/40">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-gray-400 text-sm">Cancelaciones</p>
+                <h2 class="text-4xl font-bold text-red-400 mt-1">
+                    {{ $stats['cancellations'] }}
+                </h2>
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-red-600/10 border border-red-500/20 flex items-center justify-center">
+                <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </div>
+        </div>
+
+        <p class="text-gray-500 text-sm">
+            Reservas canceladas
+        </p>
+    </div>
+
+</div>
+        
         {{-- Menu --}}
         <h2 class="text-xl font-semibold text-white mb-4">Gestión del Sistema</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
