@@ -47,7 +47,7 @@ class AirlineController extends Controller
 
     public function index()
 {
-    $airlines = Airlines::all();
+    $airlines = Airlines::paginate(5);
     return view('airlines.index', compact('airlines'));
 }
 

@@ -10,7 +10,7 @@ class AirplaneController extends Controller
 {
     public function index()
     {
-        $airplanes = Airplanes::with('airline')->get();
+        $airplanes = Airplanes::with('airline')->paginate(5);
         return view('airplanes.index', compact('airplanes'));
     }
 

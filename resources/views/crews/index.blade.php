@@ -173,6 +173,7 @@
 
                 @endforeach
             </div>
+            <x-pagination :paginator="$crews" />
         @endif
 
     </div>

@@ -249,6 +249,7 @@
     </div>
 @endforeach
     </div>
+        <x-pagination :paginator="$airlines" />
 @endif
 
     </div>

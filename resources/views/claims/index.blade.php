@@ -171,6 +171,7 @@
                     </div>
                 @endforeach
             </div>
+            <x-pagination :paginator="$claims" />
         @endif
 
     </div>

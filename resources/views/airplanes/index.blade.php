@@ -188,6 +188,7 @@
                     </div>
                 @endforeach
             </div>
+            <x-pagination :paginator="$airplanes" />
         @endif
 
     </div>

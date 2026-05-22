@@ -61,22 +61,20 @@ class ClaimController extends Controller
         $passenger = auth()->user()->passenger;
         $claims = Claims::whereHas('reserve', function($q) use ($passenger) {
             $q->where('id_passengers', $passenger->id_passengers);
-        })->with('reserve.flight.route')->get();
+        })->with('reserve.flight.route')->paginate(5);
 
         return view('claims.my', compact('claims'));
     }
 
     public function index(Request $request)
-    {
-        $query = Claims::with(['reserve.flight.route', 'reserve.flight.airline']);
-
-        if ($request->state) {
-            $query->where('state', $request->state);
-        }
-
-        $claims = $query->orderBy('creation_date', 'desc')->get();
-        return view('claims.index', compact('claims'));
+{
+    $query = Claims::with(['reserve.flight.route', 'reserve.flight.airline']);
+    if ($request->state) {
+        $query->where('state', $request->state);
     }
+    $claims = $query->orderBy('creation_date', 'desc')->paginate(5)->appends(request()->query());
+    return view('claims.index', compact('claims'));
+}
 
     public function updateState(Request $request, $id)
     {

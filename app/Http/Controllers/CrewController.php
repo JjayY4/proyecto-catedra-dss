@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class CrewController extends Controller
 {
     public function index()
-    {
-        $crews = Crew::with('airline')->get();
-        return view('crews.index', compact('crews'));
-    }
+{
+    $crews = Crew::with('airline')->paginate(5);
+    return view('crews.index', compact('crews'));
+}
 
     public function create()
     {

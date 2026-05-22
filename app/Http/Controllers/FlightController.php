@@ -11,10 +11,10 @@ use App\Models\Crew;
 class FlightController extends Controller
 {
     public function index()
-    {
-        $flights = Flights::with(['route', 'airplane', 'airline', 'crew'])->get();
-        return view('flights.index', compact('flights'));
-    }
+{
+    $flights = Flights::with(['route', 'airplane', 'airline', 'crew'])->paginate(5);
+    return view('flights.index', compact('flights'));
+}
 
     public function create()
     {

@@ -179,6 +179,7 @@
                     </div>
                 @endforeach
             </div>
+            <x-pagination :paginator="$routes" />
         @endif
     </div>
 
