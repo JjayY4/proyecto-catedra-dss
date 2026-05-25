@@ -37,7 +37,11 @@ class FlightController extends Controller
         $routes = Routes::all();
         $airplanes = Airplanes::all();
         $airlines = Airlines::all();
-        $crews = Crew::where('available', true)->get();
+        $crews = Crew::where('available', true)
+    ->whereDoesntHave('flights', function($q) {
+        $q->whereIn('state', ['Programado', 'En vuelo', 'Retrasado']);
+    })
+    ->get();
         return view('flights.create', compact('routes', 'airplanes', 'airlines', 'crews'));
     }
 
@@ -108,7 +112,12 @@ class FlightController extends Controller
     $routes = Routes::all();
     $airplanes = Airplanes::all();
     $airlines = Airlines::all();
-    $crews     = Crew::where('available', true)->get();
+    $crews = Crew::where('available', true)
+    ->whereDoesntHave('flights', function($q) use ($flight) {
+        $q->whereIn('state', ['Programado', 'En vuelo', 'Retrasado'])
+          ->where('id_flights', '!=', $flight->id_flights);
+    })
+    ->get();
     $assignedCrew = $flight->crew->pluck('id_crew_member')->toArray();
     return view('flights.edit', compact('flight', 'routes', 'airplanes', 'airlines', 'crews', 'assignedCrew'));
 }

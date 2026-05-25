@@ -72,6 +72,55 @@
             </a>
         </div>
 
+        {{-- Filtro de Aviones --}}
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 mb-6">
+            <form method="GET" action="{{ route('airplanes.index') }}">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    {{-- Búsqueda por Modelo --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Modelo</label>
+                        <input type="text" name="modelo" value="{{ request('modelo') }}" placeholder="Ej: Boeing 737..."
+                            class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+                    </div>
+
+                    {{-- Búsqueda por Tipo --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Tipo</label>
+                        <input type="text" name="tipo" value="{{ request('tipo') }}" placeholder="Ej: Narrowbody, Widebody..."
+                            class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+                    </div>
+
+                    {{-- Filtro por Aerolínea --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Aerolínea</label>
+                        <select name="id_airlines" class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="">Todas</option>
+                            @foreach($airlines as $airline)
+                                <option value="{{ $airline->id_airlines }}" {{ request('id_airlines') == $airline->id_airlines ? 'selected' : '' }}>
+                                    {{ $airline->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Botones --}}
+                    <div class="flex items-end gap-2">
+                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition">
+                            Buscar
+                        </button>
+
+                        @if(request()->hasAny(['modelo', 'tipo', 'id_airlines']))
+                            <a href="{{ route('airplanes.index') }}" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold px-5 py-3 rounded-xl transition text-center flex items-center justify-center">
+                                Limpiar
+                            </a>
+                        @endif
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
         @if(session('success'))
             <div class="bg-green-900 border border-green-700 text-green-300 px-4 py-3 rounded-lg mb-6 text-sm">
                 {{ session('success') }}

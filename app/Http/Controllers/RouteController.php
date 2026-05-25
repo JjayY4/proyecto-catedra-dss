@@ -6,9 +6,24 @@ use Illuminate\Http\Request;
 
 class RouteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $routes = Routes::all();
+        $query = Routes::query();
+
+        if ($request->filled('origen')) {
+            $query->where(function($q) use ($request) {
+                $q->where('origin_city', 'like', '%' . $request->origen . '%')
+                  ->orWhere('origin_airport', 'like', '%' . $request->origen . '%');
+            });
+        }
+
+        if ($request->filled('destino')) {
+            $query->where(function($q) use ($request) {
+                $q->where('destination_city', 'like', '%' . $request->destino . '%')
+                  ->orWhere('destination_airport', 'like', '%' . $request->destino . '%');
+            });
+        }
+        $routes = $query->paginate(5)->appends($request->query());
         return view('routes.index', compact('routes'));
     }
 

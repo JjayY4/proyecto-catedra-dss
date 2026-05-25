@@ -77,6 +77,52 @@
             </a>
         </div>
 
+        {{-- Filtro de Tripulación --}}
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 mb-6">
+            <form method="GET" action="{{ route('crews.index') }}">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    {{-- Búsqueda por Nombre --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Nombre</label>
+                        <input type="text" name="nombre" value="{{ request('nombre') }}" placeholder="Ej: Juan Pérez..."
+                            class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+                    </div>
+
+                    {{-- Búsqueda por Cargo --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Cargo</label>
+                        <input type="text" name="cargo" value="{{ request('cargo') }}" placeholder="Ej: Piloto, Copiloto..."
+                            class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+                    </div>
+
+                    {{-- Filtro por Disponibilidad --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1.5">Disponibilidad</label>
+                        <select name="disponible" class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="">Todos</option>
+                            <option value="1" {{ request('disponible') === '1' ? 'selected' : '' }}>Disponible</option>
+                            <option value="0" {{ request('disponible') === '0' ? 'selected' : '' }}>No disponible</option>
+                        </select>
+                    </div>
+
+                    {{-- Botones --}}
+                    <div class="flex items-end gap-2">
+                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition">
+                            Buscar
+                        </button>
+
+                        @if(request()->hasAny(['nombre', 'cargo', 'disponible']))
+                            <a href="{{ route('crews.index') }}" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold px-5 py-3 rounded-xl transition text-center flex items-center justify-center">
+                                Limpiar
+                            </a>
+                        @endif
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
         @if(session('success'))
             <div class="bg-green-900 border border-green-700 text-green-300 px-4 py-3 rounded-lg mb-6 text-sm">
                 {{ session('success') }}

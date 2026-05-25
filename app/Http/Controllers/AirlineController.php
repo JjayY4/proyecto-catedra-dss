@@ -42,7 +42,7 @@ class AirlineController extends Controller
             'logo_url' => $logoUrl,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Aerolinea registrada exitosamente.');
+        return redirect()->route('airlines.index')->with('success', 'Aerolínea registrada exitosamente.');
     }
 
     public function index(Request $request)

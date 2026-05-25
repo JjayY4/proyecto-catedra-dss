@@ -80,7 +80,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
         Auth::login($user);
 
-        return redirect(route('index', absolute: false));
+        return redirect(route('index'))->with('success', '¡Cuenta creada exitosamente!');
 
             
         });

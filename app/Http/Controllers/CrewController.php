@@ -7,11 +7,27 @@ use Illuminate\Http\Request;
 
 class CrewController extends Controller
 {
-    public function index()
-{
-    $crews = Crew::with('airline')->paginate(5);
-    return view('crews.index', compact('crews'));
-}
+    public function index(Request $request)
+    {
+        $query = Crew::with('airline');
+
+        if ($request->filled('nombre')) {
+            $query->where('name', 'like', '%' . $request->nombre . '%')
+                  ->orWhere('nickname', 'like', '%' . $request->nombre . '%'); // Agregado por si buscan por apodo
+        }
+
+        if ($request->filled('cargo')) {
+            $query->where('post', 'like', '%' . $request->cargo . '%');
+        }
+
+        if ($request->filled('disponible')) {
+            $query->where('available', $request->disponible);
+        }
+
+        $crews = $query->paginate(5)->appends($request->query());
+        
+        return view('crews.index', compact('crews'));
+    }
 
     public function create()
     {
@@ -36,7 +52,7 @@ class CrewController extends Controller
             'nickname'       => $request->nickname,
             'post'           => $request->post,
             'license_number' => $request->license_number,
-            'available'      => $request->has('available') ? 1 : 1,
+            'available'      => $request->has('available') ? 1 : 0,
         ]);
 
         return redirect()->route('crews.index')->with('success', 'Miembro de tripulación registrado exitosamente.');

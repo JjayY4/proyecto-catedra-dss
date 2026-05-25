@@ -8,10 +8,27 @@ use Cloudinary\Cloudinary;
 
 class AirplaneController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $airplanes = Airplanes::with('airline')->paginate(5);
-        return view('airplanes.index', compact('airplanes'));
+        $query = Airplanes::with('airline');
+
+        if ($request->filled('modelo')) {
+            $query->where('model', 'like', '%' . $request->modelo . '%');
+        }
+
+        if ($request->filled('tipo')) {
+            $query->where('type', 'like', '%' . $request->tipo . '%');
+        }
+
+        if ($request->filled('id_airlines')) {
+            $query->where('id_airlines', $request->id_airlines);
+        }
+
+        $airplanes = $query->paginate(5)->appends($request->query());
+        
+        $airlines = Airlines::all(); 
+
+        return view('airplanes.index', compact('airplanes', 'airlines'));
     }
 
     public function create()
