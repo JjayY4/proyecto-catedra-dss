@@ -121,12 +121,6 @@
             </form>
         </div>
 
-        @if(session('success'))
-            <div class="bg-green-900 border border-green-700 text-green-300 px-4 py-3 rounded-lg mb-6 text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if($airplanes->isEmpty())
             <div class="text-center py-20">
                 <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,7 +217,7 @@
                                         @method('DELETE')
 
                                         <button type="button"
-                                            onclick="openDeleteModal('{{ $airplane->id_airplanes }}', @js($airplane->model))"
+                                            onclick="confirmDelete('{{ $airplane->id_airplanes }}', @js($airplane->model))"
                                             class="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -245,75 +239,30 @@
 
     </div>
 
-    <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/60" onclick="closeDeleteModal()"></div>
+    <x-sweetalert />
 
-        <div class="relative w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl p-6">
-            <div class="flex items-start gap-4">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-900/40 border border-red-700">
-                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </div>
-
-                <div class="flex-1">
-                    <h2 class="text-xl font-bold text-white">Eliminar avión</h2>
-                    <p class="text-sm text-gray-400 mt-2">
-                        Estás a punto de eliminar el avión
-                        <span id="modalAirplaneName" class="text-white font-semibold"></span>.
-                    </p>
-                    <p class="text-sm text-gray-400 mt-2">Esta acción no se puede deshacer.</p>
-                </div>
-            </div>
-
-            <div class="mt-6 flex justify-end gap-3">
-                <button type="button" onclick="closeDeleteModal()"
-                    class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                    Volver
-                </button>
-
-                <button type="button" id="confirmDeleteBtn"
-                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                    Sí, eliminar
-                </button>
-            </div>
-        </div>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
     <script>
-        let currentDeleteFormId = null;
-
-        function openDeleteModal(airplaneId, airplaneName) {
-            currentDeleteFormId = `delete-form-${airplaneId}`;
-            document.getElementById('modalAirplaneName').textContent = airplaneName;
-
-            const modal = document.getElementById('deleteModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            document.body.classList.add('overflow-hidden');
+        function confirmDelete(airplaneId, airplaneName) {
+            Swal.fire({
+                title: '¿Eliminar avión?',
+                html: `Estás a punto de eliminar <strong>${airplaneName}</strong>. Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                background: '#1f2937',
+                color: '#fff',
+                iconColor: '#ef4444',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#374151',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${airplaneId}`).submit();
+                }
+            });
         }
-
-        function closeDeleteModal() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-
-            document.body.classList.remove('overflow-hidden');
-            currentDeleteFormId = null;
-        }
-
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-            if (currentDeleteFormId) {
-                document.getElementById(currentDeleteFormId).submit();
-            }
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeDeleteModal();
-            }
-        });
     </script>
 
 </body>

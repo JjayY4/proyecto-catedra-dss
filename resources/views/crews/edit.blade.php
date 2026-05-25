@@ -254,7 +254,7 @@
                 <div class="flex gap-3 pt-2">
 
                     <button type="submit"
-                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-600/20">
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm">
 
                         Guardar Cambios
                     </button>
@@ -271,5 +271,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+         <x-sweetalert />
+
 </body>
 </html>
