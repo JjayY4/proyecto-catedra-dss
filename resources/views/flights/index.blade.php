@@ -85,6 +85,68 @@
             </div>
         @endif
 
+        {{-- Filtro --}}
+<div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 mb-6">
+    <form method="GET" action="{{ route('flights.index') }}">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            {{-- Búsqueda por número --}}
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1.5">Número de vuelo</label>
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Ej: AA-1234..."
+                    class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+            </div>
+
+            {{-- Filtro por aerolínea --}}
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1.5">Aerolínea</label>
+                <select name="airline"
+                    class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    <option value="">Todas</option>
+                    @foreach($airlines as $airline)
+                        <option value="{{ $airline->id_airlines }}" {{ request('airline') == $airline->id_airlines ? 'selected' : '' }}>
+                            {{ $airline->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Filtro por estado --}}
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1.5">Estado</label>
+                <select name="state"
+                    class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    <option value="">Todos</option>
+                    <option value="Programado"  {{ request('state') == 'Programado'  ? 'selected' : '' }}>Programado</option>
+                    <option value="En vuelo"    {{ request('state') == 'En vuelo'    ? 'selected' : '' }}>En vuelo</option>
+                    <option value="Aterrizado"  {{ request('state') == 'Aterrizado'  ? 'selected' : '' }}>Aterrizado</option>
+                    <option value="Cancelado"   {{ request('state') == 'Cancelado'   ? 'selected' : '' }}>Cancelado</option>
+                </select>
+            </div>
+
+            {{-- Botones --}}
+            <div class="flex items-end gap-2">
+                <button type="submit"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition">
+                    Buscar
+                </button>
+
+                @if(request()->hasAny(['search', 'airline', 'state']))
+                    <a href="{{ route('flights.index') }}"
+                        class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold px-5 py-3 rounded-xl transition text-center">
+                        Limpiar
+                    </a>
+                @endif
+            </div>
+
+        </div>
+    </form>
+</div>
+
         {{-- Lista --}}
         @if($flights->isEmpty())
             <div class="text-center py-20">
@@ -211,8 +273,6 @@
             </div>
         <x-pagination :paginator="$flights" />
     @endif
-            
-        @endif
 
     </div>
 

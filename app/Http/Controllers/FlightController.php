@@ -10,10 +10,26 @@ use App\Models\Crew;
 
 class FlightController extends Controller
 {
-    public function index()
+    public function index(Request $request)
 {
-    $flights = Flights::with(['route', 'airplane', 'airline', 'crew'])->paginate(5);
-    return view('flights.index', compact('flights'));
+    $query = Flights::with(['route', 'airplane', 'airline', 'crew']);
+
+    if ($request->search) {
+        $query->where('flight_number', 'like', "%{$request->search}%");
+    }
+
+    if ($request->airline) {
+        $query->where('id_airlines', $request->airline);
+    }
+
+    if ($request->state) {
+        $query->where('state', $request->state);
+    }
+
+    $flights = $query->paginate(5)->appends(request()->query());
+    $airlines = Airlines::all();
+
+    return view('flights.index', compact('flights', 'airlines'));
 }
 
     public function create()

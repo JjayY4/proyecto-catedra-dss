@@ -79,6 +79,33 @@
     </div>
 @endif
 
+{{-- Filtro --}}
+<div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 mb-6">
+    <form method="GET" action="{{ route('airlines.index') }}">
+        <label class="block text-sm font-medium text-gray-300 mb-1.5">Buscar aerolínea</label>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+            <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Nombre o código IATA..."
+            class="flex-1 bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
+            <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+                Buscar
+            </button>
+
+            @if(request('search'))
+                <a href="{{ route('airlines.index') }}"
+                    class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition text-center">
+                    Limpiar
+                </a>
+            @endif
+        </div>
+    </form>
+</div>
+
 {{-- Lista --}}
 @if($airlines->isEmpty())
     <div class="text-center py-20">

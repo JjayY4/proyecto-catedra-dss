@@ -45,9 +45,18 @@ class AirlineController extends Controller
         return redirect()->route('dashboard')->with('success', 'Aerolinea registrada exitosamente.');
     }
 
-    public function index()
+    public function index(Request $request)
 {
-    $airlines = Airlines::paginate(5);
+    $query = Airlines::query();
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where('name', 'like', "%{$search}%")
+              ->orWhere('iata_code', 'like', "%{$search}%");
+    }
+
+    $airlines = $query->paginate(5)->withQueryString();
+
     return view('airlines.index', compact('airlines'));
 }
 
