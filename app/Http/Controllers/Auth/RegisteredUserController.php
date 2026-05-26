@@ -35,8 +35,8 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'passport_number' => ['required', 'string', 'alpha_num', 'min:6', 'max:15', 'unique:passengers,passport_number'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],    
+            'passport_number' => ['required', 'string', 'regex:/^[A-Z]{1}[0-9]{8}$/', 'unique:passengers,passport_number'],
             'birthdate' => ['required', 'date', 'before:-18 years'],
             'phone' => ['required', 'string', 'regex:/^[0-9]{4}-[0-9]{4}$/', 'unique:passengers,phone'],
         ], [
@@ -47,18 +47,21 @@ class RegisteredUserController extends Controller
             'email.unique' => 'Este correo electrónico ya está registrado.',
             'passport_number.required' => 'El número de pasaporte es obligatorio.',
             'passport_number.unique' => 'Este número de pasaporte ya está registrado.',
-            'passport_number.alpha_num' => 'El pasaporte solo debe contener letras y números.',
-            'passport_number.min' => 'El pasaporte debe tener al menos 6 caracteres.',
-            'passport_number.max' => 'El pasaporte no puede tener más de 15 caracteres.',
+            'passport_number.regex'    => 'El pasaporte debe tener el formato correcto.',
             'birthdate.required' => 'La fecha de nacimiento es obligatoria.',
             'birthdate.date' => 'Debes ingresar una fecha válida.',
-            'birthdate.before' => 'Debes tener al menos 18 años para registrarte.',
+            'birthdate.before' => 'Debes tener al menos 18 años.',
             'phone.required' => 'El número de teléfono es obligatorio.',
-            'phone.regex' => 'El teléfono debe llevar el formato correcto con guión',
+            'phone.regex' => 'El teléfono debe llevar el formato correcto.',
             'phone.unique' => 'Este número de teléfono ya está registrado.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.letters' => 'La contraseña debe contener al menos una letra.',
+            'password.mixed' => 'La contraseña debe contener mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe contener al menos un número.',
+            'password.symbols' => 'La contraseña debe contener al menos un símbolo.',
+            'password.uncompromised' => 'La contraseña elegida es débil, elige otra diferente.',
         ]);
 
         return DB::transaction(function () use ($request) {

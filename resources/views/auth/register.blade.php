@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6">
         <h2 class="text-3xl font-bold text-white">Crear cuenta</h2>
-        <p class="text-sm text-gray-400 mt-1">Complete sus datos para empezar a reservar vuelos en SkyFlow.</p>
+        <p class="text-sm text-gray-400 mt-1">Complete sus datos para empezar en SkyFlow.</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
@@ -17,7 +17,7 @@
                 required
                 autofocus
                 autocomplete="name"
-                placeholder="Su nombre"
+                placeholder="Juan Pérez"
                 class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition"
             >
             @error('name')
@@ -162,7 +162,7 @@
 
         <button
             type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-900/20"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm"
         >
             Crear Cuenta
         </button>
