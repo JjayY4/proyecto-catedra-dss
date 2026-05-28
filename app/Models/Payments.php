@@ -7,6 +7,7 @@ class Payments extends Model
 {
     protected $table = 'payments';
     protected $primaryKey = 'id_payments';
+    
     protected $fillable = [
         'id_reserves',
         'amount',
@@ -14,6 +15,11 @@ class Payments extends Model
         'state_payment',
         'transaction_code',
         'payment_date',
+    ];
+
+    protected $casts = [
+        'payment_date' => 'datetime',
+        'amount' => 'decimal:2',
     ];
 
     public function reserve()

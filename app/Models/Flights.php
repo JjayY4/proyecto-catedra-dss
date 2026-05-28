@@ -38,4 +38,9 @@ class Flights extends Model
     {
         return $this->belongsToMany(Crew::class, 'flight_crew', 'id_flights', 'id_crew_member');
     }
+
+    public function scales()
+    {
+        return $this->hasMany(Scale::class, 'id_flights', 'id_flights')->orderBy('order', 'asc');
+    }
 }

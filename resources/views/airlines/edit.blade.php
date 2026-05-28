@@ -65,15 +65,6 @@
             <p class="text-gray-400 mt-1">Modificá los datos de <span class="text-blue-400 font-medium">{{ $airline->name }}</span></p>
         </div>
 
-        {{-- Errores --}}
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm space-y-1">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
         {{-- Formulario --}}
         <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8">
             <form method="POST" action="{{ route('airlines.update', $airline->id_airlines) }}" enctype="multipart/form-data" class="space-y-6">

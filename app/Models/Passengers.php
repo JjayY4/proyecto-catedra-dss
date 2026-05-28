@@ -19,6 +19,10 @@ class Passengers extends Model
         'user_id'
     ];
 
+protected $casts = [
+    'passport_number' => 'encrypted',
+];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

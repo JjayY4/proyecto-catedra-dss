@@ -83,15 +83,6 @@
             </p>
         </div>
 
-        {{-- Errores --}}
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm space-y-1">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
         {{-- Formulario --}}
         <div class="bg-gray-800 border border-gray-700 rounded-3xl p-8 shadow-2xl">
             <form method="POST" action="{{ route('crews.store') }}" class="space-y-6">
@@ -211,7 +202,7 @@
                 <div class="flex gap-3 pt-2">
 
                     <button type="submit"
-                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-600/20">
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm">
 
                         Registrar Miembro
                     </button>

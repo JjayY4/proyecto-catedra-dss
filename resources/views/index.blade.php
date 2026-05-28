@@ -173,7 +173,7 @@
                                             <div class="w-10 sm:w-16 h-px bg-gray-600"></div>
                                             <div class="w-2 h-2 rounded-full bg-gray-500"></div>
                                         </div>
-                                        <p class="text-gray-500 text-xs">Directo</p>
+                                        
                                     </div>
 
                                     <div class="text-center">
@@ -202,11 +202,32 @@
                                 </div>
                             </div>
 
-                            <div class="mt-4 pt-4 border-t border-gray-700 flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs text-gray-400">
-                                <span>Salida: {{ \Carbon\Carbon::parse($vuelo->departure_date_time)->format('d M Y, H:i') }}</span>
-                                <span>Llegada: {{ \Carbon\Carbon::parse($vuelo->arrival_date_time)->format('d M Y, H:i') }}</span>
+                            <div class="mt-4 pt-4 border-t border-gray-700 flex flex-col sm:flex-row flex-wrap gap-4 text-xs text-gray-400">
+    
+                                <div class="flex items-center gap-4">
+                                    <span class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        {{ \Carbon\Carbon::parse($vuelo->departure_date_time)->format('d M Y, H:i') }}
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                        {{ \Carbon\Carbon::parse($vuelo->arrival_date_time)->format('H:i') }}
+                                    </span>
+                                </div>
+
+                                @if($vuelo->scales->isNotEmpty())
+                                    <div class="flex items-center gap-1.5 text-yellow-500">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                        <span>Escala en: {{ $vuelo->scales->pluck('city_scale')->implode(', ') }}</span>
+                                    </div>
+                                @else
+                                    <span class="text-gray-500 italic">Vuelo directo</span>
+                                @endif
+
                                 <span class="sm:ml-auto">
-                                    <span class="bg-green-900 text-green-300 px-2 py-0.5 rounded-full">{{ $vuelo->state }}</span>
+                                    <span class="bg-{{ $vuelo->state === 'Cancelado' ? 'red' : 'green' }}-900 text-{{ $vuelo->state === 'Cancelado' ? 'red' : 'green' }}-300 px-3 py-0.5 rounded-full font-medium">
+                                        {{ $vuelo->state }}
+                                    </span>
                                 </span>
                             </div>
                         </div>

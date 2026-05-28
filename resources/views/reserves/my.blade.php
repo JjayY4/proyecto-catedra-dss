@@ -64,20 +64,18 @@
             <p class="text-gray-400 mt-1">Historial de tus reservas de vuelo</p>
         </div>
 
-        {{-- Alertas --}}
-        @if(session('success'))
-            <div class="bg-green-900 border border-green-700 text-green-300 px-4 py-3 rounded-lg mb-6 text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
+        @foreach($reserves as $reserve)
+            @if($reserve->state_reserve == 'Pendiente')
+                <div class="bg-yellow-900/30 border border-yellow-700 p-4 rounded-lg mb-6">
+                    <p class="text-yellow-300 text-sm">
+                        <strong>¡Atención!</strong> Tenés una reserva pendiente (Código: <strong>{{ $reserve->reserve_code }}</strong>). 
+                        <a href="{{ route('payments.create', $reserve->id_reserves) }}" class="underline font-bold ml-2">
+                            Completar pago ahora
+                        </a> antes de que expire.
+                    </p>
+                </div>
+            @endif
+        @endforeach
 
         {{-- Reservas --}}
         @if($reserves->isEmpty())
@@ -178,7 +176,7 @@
                                         @method('PATCH')
                                         <button
                                             type="button"
-                                            onclick="openCancelModal('{{ $reserve->id_reserves }}', '{{ $reserve->reserve_code }}')"
+                                            onclick="confirmDelete('{{ $reserve->id_reserves }}', '{{ $reserve->reserve_code }}')"
                                             class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
                                             Cancelar Reserva
                                         </button>
@@ -203,94 +201,36 @@
                     </div>
                 @endforeach
             </div>
-
-            <div class="mt-8">
-                <a href="{{ route('index') }}" class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition">
-                    Buscar más vuelos
-                </a>
-            </div>
         @endif
     </div>
 
-    {{-- Modal cancelar reserva --}}
-    <div id="cancelModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/60" onclick="closeCancelModal()"></div>
-
-        <div class="relative w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl p-6">
-            <div class="flex items-start gap-4">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-900/40 border border-red-700">
-                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </div>
-
-                <div class="flex-1">
-                    <h2 class="text-xl font-bold text-white">Cancelar reserva</h2>
-                    <p class="text-sm text-gray-400 mt-2">
-                        Estás a punto de cancelar la reserva
-                        <span id="modalReserveCode" class="text-white font-semibold"></span>.
-                    </p>
-                    <p class="text-sm text-gray-400 mt-2">
-                        Esta acción no se puede deshacer.
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-6 flex justify-end gap-3">
-                <button
-                    type="button"
-                    onclick="closeCancelModal()"
-                    class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                    Volver
-                </button>
-
-                <button
-                    type="button"
-                    id="confirmCancelBtn"
-                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                    Sí, cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentCancelFormId = null;
-
-        function openCancelModal(reserveId, reserveCode) {
-            currentCancelFormId = `cancel-form-${reserveId}`;
-
-            document.getElementById('modalReserveCode').textContent = reserveCode;
-
-            const modal = document.getElementById('cancelModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeCancelModal() {
-            const modal = document.getElementById('cancelModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-
-            document.body.classList.remove('overflow-hidden');
-            currentCancelFormId = null;
-        }
-
-        document.getElementById('confirmCancelBtn').addEventListener('click', function () {
-            if (currentCancelFormId) {
-                document.getElementById(currentCancelFormId).submit();
-            }
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeCancelModal();
-            }
-        });
-    </script>
+    <x-sweetalert />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+
+    <script>
+        function confirmDelete(reserveId, reserveCode) {
+            Swal.fire({
+                title: '¿Cancelar reserva?',
+                html: `Estás a punto de cancelar <strong>${reserveCode}</strong>. Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                background: '#1f2937',
+                color: '#fff',
+                iconColor: '#ef4444',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#374151',
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`cancel-form-${reserveId}`).submit();
+                }
+            });
+        }
+        
+    </script>
+
 </body>
 </html>

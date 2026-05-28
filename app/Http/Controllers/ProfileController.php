@@ -8,6 +8,8 @@ class ProfileController extends Controller
 {
     public function edit(Request $request): View
     {
+        $user = $request->user()->load('passenger');
+        
         return view('profile.profile', [
             'user' => $request->user(),
         ]);

@@ -54,14 +54,6 @@
             <p class="text-gray-400 mt-1">Revisá tu reserva y completá el pago</p>
         </div>
 
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm space-y-1">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             {{-- Resumen de reserva --}}
@@ -193,6 +185,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1.5">Número de tarjeta</label>
                             <input type="text" name="card_number" id="card_number"
+                                autocomplete="off"
                                 placeholder="0000 0000 0000 0000" maxlength="19"
                                 value="{{ old('card_number') }}"
                                 class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 font-mono tracking-widest">
@@ -215,6 +208,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-1.5">CVV</label>
                                 <input type="password" name="card_cvv" id="card_cvv"
+                                    autocomplete="off"
                                     placeholder="•••" maxlength="3"
                                     class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 font-mono">
                                 @error('card_cvv')
@@ -223,8 +217,8 @@
                             </div>
                         </div>
 
-                        <button type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition text-sm shadow-lg shadow-blue-900/30 mt-2">
+                        <button type="submit" id="pay-btn"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition text-sm mt-2">
                             Confirmar Pago de ${{ number_format($reserve->total_price, 2) }}
                         </button>
 
@@ -232,7 +226,7 @@
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
-                            Pago simulado — tus datos no se almacenan
+                            Pago simulado — Tus datos no se almacenan.
                         </p>
 
                     </form>
@@ -246,28 +240,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
     <script>
-        const cardNumber = document.getElementById('card_number');
-        cardNumber.addEventListener('input', () => {
-            let val = cardNumber.value.replace(/\D/g, '').substring(0, 16);
-            cardNumber.value = val.replace(/(.{4})/g, '$1 ').trim();
-            document.getElementById('card-preview-number').textContent = cardNumber.value || '0000 0000 0000 0000';
-        });
+    const cardNumber = document.getElementById('card_number');
+    cardNumber.addEventListener('input', () => {
+        let val = cardNumber.value.replace(/\D/g, '').substring(0, 16);
+        cardNumber.value = val.replace(/(.{4})/g, '$1 ').trim();
+        document.getElementById('card-preview-number').textContent = cardNumber.value || '0000 0000 0000 0000';
+    });
 
-        const cardExpiry = document.getElementById('card_expiry');
-        cardExpiry.addEventListener('input', () => {
-            let val = cardExpiry.value.replace(/\D/g, '').substring(0, 4);
-            if (val.length >= 2) val = val.substring(0, 2) + '/' + val.substring(2);
-            cardExpiry.value = val;
-            document.getElementById('card-preview-expiry').textContent = cardExpiry.value || 'MM/AA';
-        });
+    const cardExpiry = document.getElementById('card_expiry');
+    cardExpiry.addEventListener('input', () => {
+        let val = cardExpiry.value.replace(/\D/g, '').substring(0, 4);
+        if (val.length >= 2) val = val.substring(0, 2) + '/' + val.substring(2);
+        cardExpiry.value = val;
+        document.getElementById('card-preview-expiry').textContent = cardExpiry.value || 'MM/AA';
+    });
 
-        const cardName = document.getElementById('card_name');
-        cardName.addEventListener('input', () => {
-            cardName.value = cardName.value.toUpperCase();
-            document.getElementById('card-preview-name').textContent = cardName.value || 'NOMBRE APELLIDO';
-        });
-    </script>
+    const cardName = document.getElementById('card_name');
+    cardName.addEventListener('input', () => {
+        cardName.value = cardName.value.toUpperCase();
+        document.getElementById('card-preview-name').textContent = cardName.value || 'NOMBRE APELLIDO';
+    });
+
+    const paymentForm = document.getElementById('payment-form');
+    const submitBtn = document.getElementById('pay-btn');
+
+    paymentForm.addEventListener('submit', function(event) {
+        const cardNumberInput = document.getElementById('card_number');
+        cardNumberInput.value = cardNumberInput.value.replace(/\s/g, ''); 
+
+        setTimeout(() => {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('cursor-not-allowed', 'opacity-75'); 
+            submitBtn.innerHTML = `
+                <div class="flex items-center justify-center gap-2">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Procesando pago...
+                </div>
+            `;
+        }, 50);
+    });
+</script>
 
 </body>
-</html>
-```
+</html> 

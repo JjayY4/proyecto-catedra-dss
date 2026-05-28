@@ -162,6 +162,12 @@
                                 <option value="Resuelto" {{ $claim->state == 'Resuelto' ? 'selected' : '' }}>Resuelto</option>
                             </select>
 
+                            <div class="flex-1">
+                                <textarea name="admin_response" 
+                                        class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 text-sm" 
+                                        placeholder="Escribe el seguimiento aquí...">{{ $claim->admin_response }}</textarea>
+                            </div>
+
                             <button type="submit"
                                 class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
                                 Actualizar Estado

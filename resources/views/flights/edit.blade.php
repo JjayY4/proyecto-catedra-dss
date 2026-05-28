@@ -58,15 +58,6 @@
             <p class="text-gray-400 mt-1">Actualize la información del vuelo seleccionado.</p>
         </div>
 
-        {{-- Errores --}}
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm space-y-1">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
     <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8">
         <form method="POST" action="{{ route('flights.update', $flight->id_flights) }}" class="space-y-6">
             @csrf
@@ -200,6 +191,33 @@
                 @enderror
             </div>
 
+            <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Escalas</label>
+                    <p class="text-gray-500 text-xs mb-3">Agrega una escala a un vuelo</p>
+                    <div id="scales-container" class="space-y-2">
+                        @isset($flight)
+                            @foreach($flight->scales as $index => $scale)
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-gray-700/50 p-4 rounded-xl border border-gray-600">
+                                    <input type="text" name="scales[{{$index}}][city]" value="{{$scale->city_scale}}" placeholder="Ciudad" class="bg-gray-800 border border-gray-600 rounded-lg p-2 text-white text-sm" required>
+                                    <input type="text" name="scales[{{$index}}][airport]" value="{{$scale->airport_scale}}" placeholder="Aeropuerto" class="bg-gray-800 border border-gray-600 rounded-lg p-2 text-white text-sm" required>
+                                    <input type="time" name="scales[{{$index}}][duration]" value="{{$scale->duration}}" class="bg-gray-800 border border-gray-600 rounded-lg p-2 text-white text-sm" required>
+                                    <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300">Eliminar</button>
+                                </div>
+                            @endforeach
+                        @endisset
+                    </div>
+                    <button type="button" id="add-scale-btn" onclick="addScale()" 
+                        class="w-full mt-4 flex items-center justify-center gap-2 border-2 border-dashed border-gray-600 bg-gray-800/50 hover:bg-gray-700 hover:border-gray-500 text-gray-400 hover:text-white px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200"
+                        {{ isset($flight) && $flight->scales->isNotEmpty() ? 'style=display:none' : '' }}>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Agregar Escala
+                    </button>
+                </div>
+
+            
+
             <div class="flex gap-3 pt-2">
                 <button type="submit"
                     class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm">
@@ -217,5 +235,64 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
 <x-sweetalert />
+
+<script>
+function addScale() {
+    const container = document.getElementById('scales-container');
+    const btn = document.getElementById('add-scale-btn');
+
+    if (container.children.length >= 1) {
+        alert("Solo se permite una escala por vuelo.");
+        return;
+    }
+
+    const index = 0; 
+    const html = `
+        <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-800/50 p-4 rounded-xl border border-gray-700" id="scale-item">
+            <div class="w-full sm:flex-1">
+                <input type="text" name="scales[0][city]" placeholder="Ciudad" 
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition" required>
+            </div>
+            
+            <div class="w-full sm:flex-1">
+                <input type="text" name="scales[0][airport]" placeholder="Aeropuerto" 
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition" required>
+            </div>
+            
+            <div class="w-full sm:w-32">
+                <input 
+                    type="text" 
+                    name="scales[0][duration]" 
+                    placeholder="HH:MM"
+                    pattern="^([0-9]{2}):([0-5][0-9])$"
+                    title="Formato de horas y minutos (ej. 01:45)"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-center placeholder-gray-500" 
+                    required>
+            </div>
+            
+            <div class="w-full sm:w-auto">
+                <button type="button" onclick="removeScale()" title="Eliminar escala"
+                    class="w-full sm:w-auto flex items-center justify-center gap-2 bg-red-600/10 border border-red-500/20 text-red-400 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-lg text-sm transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    <span class="sm:hidden font-medium">Eliminar</span>
+                </button>
+            </div>
+        </div>`;
+            
+    container.insertAdjacentHTML('beforeend', html);
+    
+    btn.style.display = 'none';
+}
+
+function removeScale() {
+    const container = document.getElementById('scales-container');
+    const btn = document.getElementById('add-scale-btn');
+    
+    container.innerHTML = ''; 
+    btn.style.display = ''; 
+}
+</script>
 </body>
 </html>

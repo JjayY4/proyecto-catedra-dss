@@ -124,6 +124,13 @@
                             <p class="text-gray-300 text-sm leading-relaxed">{{ $claim->description }}</p>
                         </div>
 
+                        @if($claim->admin_response)
+                            <div class="mt-4 bg-blue-900/20 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                                <p class="text-blue-300 text-xs font-bold uppercase mb-1">Respuesta del Administrador:</p>
+                                <p class="text-white text-sm">{{ $claim->admin_response }}</p>
+                            </div>
+                        @endif
+
                         {{-- Timeline de estado --}}
                         <div class="mt-4 pt-4 border-t border-gray-700 flex items-center gap-2">
                             <div class="flex items-center gap-1.5">

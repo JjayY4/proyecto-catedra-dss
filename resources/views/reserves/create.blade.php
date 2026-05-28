@@ -298,6 +298,12 @@
                 document.getElementById('summary-price').textContent = '$' + parseFloat(btn.dataset.price).toFixed(2);
                 document.getElementById('confirm-btn').disabled = false;
             });
+
+            document.getElementById('reserve-form').addEventListener('submit', function() {
+                const confirmBtn = document.getElementById('confirm-btn');
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = 'Procesando...';
+            });
         });
     </script>
 

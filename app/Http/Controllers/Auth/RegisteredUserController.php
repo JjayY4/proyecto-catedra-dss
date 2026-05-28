@@ -83,6 +83,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
         Auth::login($user);
 
+        \Illuminate\Support\Facades\DB::table('cache')
+        ->where('key', 'like', '%dashboard_stats%')
+        ->delete();
+
         return redirect(route('index'))->with('success', '¡Cuenta creada exitosamente!');
 
             

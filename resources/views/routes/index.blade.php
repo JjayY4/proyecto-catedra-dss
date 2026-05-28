@@ -88,7 +88,7 @@
                             type="text"
                             name="destino"
                             value="{{ request('destino') }}"
-                            placeholder="Ej: Madrid, MAD..."
+                            placeholder="Ej: Barcelona, BAR..."
                             class="w-full bg-gray-700/80 border border-gray-600 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 transition">
                     </div>
 
@@ -122,7 +122,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
-                    Registrar primera ruta
+                    Registrar ruta
                 </a>
             </div>
         @else
@@ -225,7 +225,7 @@
         function confirmDelete(routeId, routeName) {
             Swal.fire({
                 title: '¿Eliminar ruta?',
-                html: `Estás a punto de eliminar <strong>${routeName}</strong>. Esta acción no se puede deshacer.`,
+                html: `Estás a punto de eliminar la ruta <strong>${routeName}</strong>. Esta acción no se puede deshacer.`,
                 icon: 'warning',
                 background: '#1f2937',
                 color: '#fff',

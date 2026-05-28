@@ -69,7 +69,7 @@
             </div>
 
             <a href="{{ route('crews.create') }}"
-                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20">
+                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -132,7 +132,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
-                    Registrar primer miembro
+                    Registrar miembro
                 </a>
             </div>
         @else
@@ -234,10 +234,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
     <script>
-        function confirmDelete(airplaneId, airplaneName) {
+        function confirmDelete(crewId, crewName) {
             Swal.fire({
-                title: '¿Eliminar avión?',
-                html: `Estás a punto de eliminar <strong>${airplaneName}</strong>. Esta acción no se puede deshacer.`,
+                title: '¿Eliminar miembro?',
+                html: `Estás a punto de eliminar a <strong>${crewName}</strong>. Esta acción no se puede deshacer.`,
                 icon: 'warning',
                 background: '#1f2937',
                 color: '#fff',
@@ -249,7 +249,7 @@
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${airplaneId}`).submit();
+                    document.getElementById(`delete-form-${crewId}`).submit();
                 }
             });
         }

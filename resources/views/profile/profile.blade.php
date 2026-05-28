@@ -70,17 +70,17 @@
 
                 <div>
                     <p class="text-gray-400 text-xs mb-1">Fecha de Nacimiento</p>
-                    <p class="text-white font-medium">{{ $passenger->birthdate ?? 'No registrado' }}</p>
+                    <p class="text-white font-medium">{{ $user->passenger->birthdate ?? 'No registrado' }}</p>
                 </div>
 
                 <div>
                     <p class="text-gray-400 text-xs mb-1">Teléfono</p>
-                    <p class="text-white font-medium">{{ $passenger->phone ?? 'No registrado' }}</p>
+                    <p class="text-white font-medium">{{ $user->passenger->phone ?? 'No registrado' }}</p>
                 </div>
 
                 <div class="md:col-span-2">
                     <p class="text-gray-400 text-xs mb-1">Número de Pasaporte</p>
-                    <p class="text-white font-medium">{{ $passenger->passport_number ?? 'No registrado' }}</p>
+                    <p class="text-white font-medium">{{ $user->passenger->passport_number ?? 'No registrado' }}</p>
                 </div>
             </div>
         </div>

@@ -70,7 +70,7 @@
                 <p class="text-gray-400 mt-1">Gestión de vuelos registrados</p>
             </div>
             <a href="{{ route('flights.create') }}"
-                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20">
+                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -152,7 +152,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
-                    Registrar primer vuelo
+                    Registrar vuelo
                 </a>
             </div>
         @else
@@ -210,7 +210,11 @@
                         </div>
 
                         {{-- Detalles --}}
-                        <div class="grid grid-cols-3 gap-3 py-4 border-t border-b border-gray-700 mb-4">
+                        @php
+                            $hasScales = $flight->scales->isNotEmpty();
+                        @endphp
+
+                        <div class="grid {{ $hasScales ? 'grid-cols-4' : 'grid-cols-3' }} gap-3 py-4 border-t border-b border-gray-700 mb-4">
                             <div>
                                 <p class="text-gray-400 text-xs mb-0.5">Avión</p>
                                 <p class="text-white text-sm font-medium">{{ $flight->airplane->model }}</p>
@@ -223,6 +227,18 @@
                                 <p class="text-gray-400 text-xs mb-0.5">Tarifa base</p>
                                 <p class="text-white text-sm font-bold">${{ number_format($flight->base_rate, 2) }}</p>
                             </div>
+                            
+                            {{-- Columna extra para escalas si existen --}}
+                            @if($hasScales)
+                                <div>
+                                    <p class="text-gray-400 text-xs mb-0.5">Escalas ({{ $flight->scales->count() }})</p>
+                                    <div class="flex flex-wrap gap-1">
+                                        @foreach($flight->scales as $scale)
+                                            <p class="text-white text-sm font-medium">{{ $scale->city_scale }}</p>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         </div>
 
                         @if($flight->crew->isNotEmpty())
@@ -254,7 +270,7 @@
                         @method('DELETE')
 
                         <button type="button"
-                            onclick="confirmDelete('{{ $flight->id_flights }}', @js($flight->name))"
+                            onclick="confirmDelete('{{ $flight->id_flights }}', @js($flight->flight_number))"
                             class="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -278,25 +294,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
     <script>
-        function confirmDelete(flightId, flightName) {
-            Swal.fire({
-                title: '¿Eliminar vuelo?',
-                html: `Estás a punto de eliminar <strong>${flightName}</strong>. Esta acción no se puede deshacer.`,
-                icon: 'warning',
-                background: '#1f2937',
-                color: '#fff',
-                iconColor: '#ef4444',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#374151',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${flightId}`).submit();
-                }
-            });
-        }
-    </script>
+    function confirmDelete(flightId, flightNumber) {
+        Swal.fire({
+            title: '¿Eliminar vuelo?',
+            html: `Estás a punto de eliminar el vuelo <strong>${flightNumber}</strong>. Esta acción no se puede deshacer.`,
+            icon: 'warning',
+            background: '#1f2937',
+            color: '#fff',
+            iconColor: '#ef4444',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#374151',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${flightId}`).submit();
+            }
+        });
+    }
+</script>
 </body>
 </html>

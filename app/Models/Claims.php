@@ -15,6 +15,7 @@ class Claims extends Model
         'description',
         'creation_date',
         'state',
+        'admin_response',
     ];
 
     public function reserve()

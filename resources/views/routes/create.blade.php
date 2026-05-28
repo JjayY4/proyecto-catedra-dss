@@ -65,14 +65,6 @@
             <p class="text-gray-400 mt-1">Complete los datos para registrar un nueva ruta</p>
         </div>
 
-        @if($errors->any())
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm space-y-1">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
     <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8">
     <form method="POST" action="{{ route('routes.store') }}" class="space-y-6">
         @csrf
@@ -125,8 +117,15 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1.5">Duración Estimada</label>
-                <input type="time" name="estimated_duration" value="{{ old('estimated_duration') }}" required
-                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <input 
+                    type="text" 
+                    name="estimated_duration" 
+                    value="{{ old('estimated_duration') }}" 
+                    required
+                    placeholder="Ej: 02:30 para 2h 30m"
+                    pattern="^([0-9]{2}):([0-5][0-9])$"
+                    title="Formato de horas y minutos (ej. 05:45)"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500">
                 @error('estimated_duration')
                     <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
                 @enderror
